@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=cover"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Healthy Kitchen">
+<meta name="theme-color" content="#0d0d10">
+<script>
+(function(){
+  const mf=JSON.stringify({name:'Healthy Kitchen',short_name:'HK',start_url:'./',display:'standalone',background_color:'#0d0d10',theme_color:'#0d0d10',orientation:'portrait',icons:[{src:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExNSIgZmlsbD0iIzE2MjMxMiIvPjx0ZXh0IHg9IjI1NiIgeT0iMzIwIiBmb250LXNpemU9IjI2MCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+8J+NizwvdGV4dD48L3N2Zz4=',sizes:'192x192',type:'image/svg+xml'}]});
+  const mb=new Blob([mf],{type:'application/json'});
+  const ml=document.createElement('link');ml.rel='manifest';ml.href=URL.createObjectURL(mb);document.head.appendChild(ml);
+  if('serviceWorker' in navigator){
+    const sw="self.addEventListener('install',()=>self.skipWaiting());self.addEventListener('activate',e=>e.waitUntil(clients.claim()));self.addEventListener('fetch',e=>e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)||new Response(''))));";
+    navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'})),{scope:'./'}).catch(()=>{});
+  }
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0d0d10;--sf:#141417;--sf2:#1e1e25;--sf3:#26262f;
+  --bd:#4a4a60;--bd2:#383850;--scrim:rgba(0,0,0,.72);
+  --t1:#f4f4fa;--t2:#c8c8e0;--t3:#8888a0;
+  --green:#22c55e;--gbg:rgba(34,197,94,.1);--gbd:rgba(34,197,94,.22);
+  --red:#f87171;--rbg:rgba(248,113,113,.1);--rbd:rgba(248,113,113,.22);
+  --amber:#fbbf24;--abg:rgba(251,191,36,.1);--abd:rgba(251,191,36,.22);
+  --blue:#3b82f6;--blue-bg:rgba(59,130,246,.1);--blue-bd:rgba(59,130,246,.22);
+  --purple:#8b5cf6;--pbg:rgba(139,92,246,.1);--pbd:rgba(139,92,246,.22);
+  --nav-h:60px;--sb:env(safe-area-inset-bottom,0px);
+  --sat:env(safe-area-inset-top,0px);
+  --hdr-h:calc(var(--sat) + 62px);
+  --r:12px;--rl:16px;--rx:20px;
+  --ease:cubic-bezier(.16,1,.3,1);--spring:cubic-bezier(.34,1.56,.64,1);
+}
+[data-theme="soft-dark"]{--bg:#1a1a1f;--sf:#222228;--sf2:#2a2a32;--sf3:#313139;--bd:#4c4c5c;--bd2:#3d3d4a;--t1:#ececf1;--t2:#b8b8c8;--t3:#888898;}
+[data-theme="soft-dark"] .hdr{background:rgba(26,26,31,.98)!important}
+[data-theme="soft-dark"] .tbar{background:rgba(26,26,31,.98)!important}
+[data-theme="light"]{--bg:#f2f2f7;--sf:#fff;--sf2:#fff;--sf3:#f0f0f5;--bd:#c8c8d8;--bd2:#d8d8e4;--t1:#1a1a25;--t2:#606078;--t3:#9898b0;--scrim:rgba(0,0,0,.45);}
+[data-theme="light"] .hdr{background:var(--bg)!important;border-bottom:1px solid var(--bd)!important}
+[data-theme="light"] .tbar{background:var(--bg)!important;border-top:1px solid var(--bd)!important}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{height:100%;font-size:16px;background:var(--bg)}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;padding-bottom:calc(var(--nav-h) + var(--sb) + 4px);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+::-webkit-scrollbar{width:0;height:0}
+.lbl{font-size:.62rem;font-weight:700;color:var(--t3);letter-spacing:.4px;text-transform:uppercase}
+.pg{display:none}.pg.active{display:block;animation:pgIn .22s var(--ease) both;padding-top:var(--hdr-h)}
+@keyframes pgIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.wrap{width:100%;max-width:480px;margin:0 auto;padding:12px 14px 0}
+
+/* ── Header ── */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:80;background:rgba(13,13,16,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bd2);padding-top:calc(var(--sat) + 14px);padding-bottom:13px;padding-left:16px;padding-right:16px;display:flex;align-items:center;justify-content:center;}
+.hdr-in{width:100%;max-width:480px;display:flex;align-items:center;justify-content:space-between;}
+.hdr-l{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.hdr-gr{font-size:.72rem;color:var(--t3);font-weight:400;line-height:1}
+.hdr-nm{font-size:1.1rem;font-weight:800;color:var(--t1);letter-spacing:-.4px;line-height:1.2}
+.hdr-r{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.hdr-icon-btn{width:32px;height:32px;border-radius:50%;background:var(--sf2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 120ms;}
+.hdr-icon-btn:active{transform:scale(.9);background:var(--sf3)}
+
+/* ── Tab bar ── */
+.tbar{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(13,13,16,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--bd);height:calc(var(--nav-h) + var(--sb));padding-bottom:var(--sb);display:flex;align-items:flex-start;justify-content:center;padding-top:7px;}
+.tbar-in{width:100%;max-width:480px;display:flex;align-items:flex-start;justify-content:space-around;}
+.titem{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:0;background:none;border:none;color:var(--t3);transition:color 120ms;}
+.titem.active{color:var(--green)}
+.tico{height:26px;display:flex;align-items:center;justify-content:center;}
+.tico svg{width:1.35rem;height:1.35rem;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;opacity:.35;transition:opacity 200ms}
+.titem.active .tico svg{opacity:1;stroke:var(--green)}
+.tlabel{font-size:.62rem;font-weight:700;letter-spacing:.2px}
+
+/* ── Sheet ── */
+.sov{position:fixed;inset:0;z-index:500;background:var(--scrim);opacity:0;pointer-events:none;transition:opacity .22s;}
+.sov.open{opacity:1;pointer-events:all}
+.sheet{position:fixed;bottom:0;left:0;right:0;z-index:501;max-width:480px;margin:0 auto;background:var(--sf);border-radius:20px 20px 0 0;border:1px solid var(--bd);border-bottom:none;max-height:min(88dvh,90vh);overflow-y:auto;overscroll-behavior:contain;transform:translateY(110%);transition:transform .3s var(--ease);padding-bottom:calc(16px + var(--sb));visibility:hidden;}
+.sheet.open{transform:translateY(0);visibility:visible}
+.shdl{width:36px;height:4px;background:var(--bd);border-radius:99px;margin:10px auto 0;}
+.shhdr{position:sticky;top:0;z-index:2;padding:14px 16px 12px;display:flex;align-items:center;justify-content:space-between;background:var(--sf);border-bottom:1px solid var(--bd2);}
+.shtitle{font-size:.9rem;font-weight:800;color:var(--t1);}
+.shclose{width:28px;height:28px;border-radius:50%;background:var(--sf2);border:1px solid var(--bd);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.88rem;color:var(--t2);}
+.shbody{padding:14px 16px;}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:calc(var(--nav-h) + var(--sb) + 16px);left:50%;transform:translateX(-50%) translateY(8px);background:var(--sf);border:1px solid var(--bd);color:var(--t1);padding:9px 20px;border-radius:99px;font-size:.88rem;font-weight:600;opacity:0;pointer-events:none;transition:opacity .22s,transform .22s var(--spring);white-space:nowrap;z-index:1000;box-shadow:0 4px 24px rgba(0,0,0,.55);max-width:calc(100vw - 40px);text-align:center;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── Forms ── */
+.fg{margin-bottom:13px}
+.fl{font-size:.68rem;font-weight:700;color:var(--t3);margin-bottom:5px;display:block;letter-spacing:.3px}
+.fi{width:100%;font-size:1rem!important;padding:10px 12px;border:1px solid var(--bd);border-radius:var(--r);font-family:'Inter',sans-serif;font-weight:500;background:var(--sf2);color:var(--t1);outline:none;-webkit-appearance:none;transition:border-color 150ms,box-shadow 150ms;}
+.fi:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(34,197,94,.12);background:var(--sf)}
+.fi::placeholder{color:var(--t3)}
+textarea.fi{resize:vertical;min-height:68px;line-height:1.5;}
+.frow2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{padding:10px 18px;border-radius:var(--r);font-family:'Inter',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;border:none;transition:all 150ms var(--spring);}
+.btn:active{transform:scale(.96)}
+.btn-p{background:var(--green);color:#fff;}
+.btn-g{background:var(--sf2);color:var(--t2);border:1px solid var(--bd);}
+.btn-d{color:var(--red);background:var(--rbg);border:1px solid var(--rbd);}
+.factions{display:flex;gap:9px;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--bd2)}
+
+/* ── Row list ── */
+.rlist{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rx);overflow:hidden;}
+.ritem{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--bd2);cursor:pointer;transition:background 120ms;}
+.ritem:last-child{border-bottom:none}
+.ritem:active{background:var(--sf2)}
+.rava{width:36px;height:36px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.88rem;font-weight:700;}
+.rbody{flex:1;min-width:0}
+.rtitle{font-size:.88rem;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rsub{font-size:.72rem;color:var(--t3);margin-top:2px}
+.rright{text-align:right;flex-shrink:0;display:flex;align-items:center;gap:6px;}
+.rtag{font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:99px;}
+.rchev{color:var(--t3);opacity:.5;display:flex;align-items:center;flex-shrink:0;}
+.rchev svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;}
+.rib{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1.5px solid var(--bd);background:var(--sf2);transition:all 120ms;flex-shrink:0;}
+.rib:active{transform:scale(.9)}
+.rib svg{width:14px;height:14px;stroke:var(--t2);fill:none;stroke-width:2;stroke-linecap:round;}
+.rib.add{background:var(--gbg);border-color:var(--gbd);color:var(--green);font-family:'Inter',sans-serif;font-size:.72rem;font-weight:700;width:auto;padding:0 10px;}
+.rib.del{background:var(--rbg);border-color:var(--rbd);}
+.rib.del svg{stroke:var(--red)}
+
+/* ── Collapsible sections ── */
+.shdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;user-select:none;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rl);margin-bottom:5px;transition:background 120ms;}
+.shdr:active{background:var(--sf3)}
+.shdr-l{display:flex;align-items:center;gap:9px;min-width:0;flex:1;}
+.sec-ico{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.stitle{font-size:.86rem;font-weight:700;color:var(--t1);}
+.shdr-r{display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.sec-cnt{font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:99px;}
+.scaret{color:var(--t3);transition:transform .25s var(--ease);display:flex;align-items:center;}
+.scaret svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;}
+.scaret.open{transform:rotate(180deg)}
+.sbody{overflow:hidden;max-height:0;opacity:0;pointer-events:none;transition:max-height .38s var(--ease),opacity .22s ease;}
+.sbody.open{max-height:9999px;opacity:1;pointer-events:auto;}
+.addrow{display:flex;align-items:center;justify-content:center;padding:12px;border:1px solid var(--gbd);border-radius:var(--rl);cursor:pointer;color:var(--green);font-size:.84rem;font-weight:600;gap:8px;background:var(--gbg);transition:all 120ms;}
+.addrow:active{opacity:.7}
+
+/* ── Profile/Settings cards ── */
+.pcard{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;}
+.prow{display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid var(--bd2);}
+.prow:last-child{border-bottom:none}
+.pico{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pinfo{flex:1;min-width:0}.ptitle{font-size:.88rem;font-weight:600;color:var(--t1)}.psub{font-size:.72rem;color:var(--t3);margin-top:2px}
+.ptap{cursor:pointer;transition:background 120ms;}.ptap:active{background:var(--sf2)}
+.plbl{font-size:.62rem;font-weight:700;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:7px;}
+.pshdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;user-select:none;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rl);margin-bottom:6px;transition:background 120ms;}
+.pshdr:active{background:var(--sf3)}
+.pshdr-l{display:flex;align-items:center;gap:8px;}
+.pshdr-title{font-size:.86rem;font-weight:600;color:var(--t1);}
+
+/* ── Toggle ── */
+.tog{width:38px;height:20px;border-radius:99px;background:var(--sf3);border:1px solid var(--bd);cursor:pointer;position:relative;transition:background 200ms;flex-shrink:0;}
+.tog.on{background:var(--green);border-color:var(--green)}
+.togth{position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:all 200ms var(--spring)}
+.tog.on .togth{left:20px}
+
+/* ── Font size buttons ── */
+.fsbtn{padding:7px 10px;border-radius:var(--r);border:1px solid var(--bd);background:var(--sf2);color:var(--t2);font-family:'Inter',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .12s;}
+.fsbtn.on{background:var(--green);color:#fff;border-color:var(--green)}
+.fsbtn:active{transform:scale(.93)}
+
+/* ── Calendar ── */
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.cal-nav-btn{width:32px;height:32px;border-radius:50%;background:var(--sf2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 120ms;}
+.cal-nav-btn:active{background:var(--sf3);transform:scale(.88)}
+.cal-nav-btn svg{width:14px;height:14px;stroke:var(--t1);fill:none;stroke-width:2.5;stroke-linecap:round;}
+.cal-month-lbl{font-size:1rem;font-weight:800;letter-spacing:-.3px}
+.cal-dow-row{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;margin-bottom:4px;}
+.cal-dow{font-size:.6rem;font-weight:700;color:var(--t3);padding:4px 0;letter-spacing:.04em}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.cal-day{height:42px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:9px;cursor:pointer;font-size:.84rem;font-weight:500;transition:all .12s;position:relative;padding-bottom:5px;}
+.cal-day:active{transform:scale(.88)}
+.cal-day.empty{cursor:default}
+.cal-day.today{background:var(--blue-bg);color:var(--blue);font-weight:800;border:1px solid var(--blue-bd)}
+.cal-day.selected{background:var(--green);color:#fff;font-weight:800;border:1px solid var(--gbd)}
+.cal-day.has-plan::after{content:'';position:absolute;bottom:4px;width:4px;height:4px;border-radius:50%;background:var(--green);}
+
+/* ── Home — today meals ── */
+.hero-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rx);overflow:hidden;margin-bottom:10px;}
+.hero-top{padding:14px 16px 12px;border-bottom:1px solid var(--bd2);}
+.hero-eyebrow{font-size:.62rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;}
+.hero-title{font-size:1.15rem;font-weight:800;letter-spacing:-.3px;color:var(--t1);}
+.meal-row{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--bd2);cursor:pointer;transition:background 120ms;}
+.meal-row:last-child{border-bottom:none}
+.meal-row:active{background:var(--sf2)}
+.meal-ico{font-size:1.1rem;width:24px;text-align:center;flex-shrink:0;}
+.meal-body{flex:1;min-width:0}
+.meal-type-lbl{font-size:.6rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;}
+.meal-name{font-size:.88rem;font-weight:700;color:var(--t1);}
+.meal-sub{font-size:.68rem;color:var(--t3);margin-top:1px;display:flex;align-items:center;gap:5px;}
+.meal-fav{display:inline-flex;align-items:center;gap:3px;font-size:.64rem;font-weight:700;padding:1px 6px;border-radius:99px;}
+.meal-kcal{font-size:.72rem;font-weight:700;color:var(--t3);flex-shrink:0;font-variant-numeric:tabular-nums;}
+.meal-empty-row{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--bd2);cursor:pointer;opacity:.55;transition:opacity 120ms;}
+.meal-empty-row:last-child{border-bottom:none}
+.meal-empty-row:active{opacity:.35}
+
+/* week-strip removed */
+
+/* ── Nutrition chips ── */
+.nut-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;}
+.nut-chip{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:10px 6px;text-align:center;}
+.nut-v{font-size:.95rem;font-weight:800;color:var(--t1);line-height:1;}
+.nut-l{font-size:.56rem;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-top:3px;}
+
+/* ── Recipe tag chips ── */
+.tag-chips{display:flex;gap:4px;flex-wrap:wrap;margin:5px 0 2px;}
+.tc{font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:99px;}
+.tc-g{background:var(--gbg);color:var(--green);border:1px solid var(--gbd);}
+.tc-b{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd);}
+.tc-a{background:var(--abg);color:var(--amber);border:1px solid var(--abd);}
+.tc-r{background:var(--rbg);color:var(--red);border:1px solid var(--rbd);}
+.tc-p{background:var(--pbg);color:var(--purple);border:1px solid var(--pbd);}
+
+/* ── Plan calendar day sheet ── */
+.plan-day-title{font-size:1rem;font-weight:800;color:var(--t1);margin-bottom:3px;}
+.plan-day-sub{font-size:.72rem;color:var(--t3);margin-bottom:14px;}
+.plan-slot{padding:11px 0;border-bottom:1px solid var(--bd2);}
+.plan-slot:last-child{border-bottom:none}
+.plan-slot-lbl{font-size:.62rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;display:flex;align-items:center;gap:4px;}
+.plan-filled{display:flex;align-items:center;gap:10px;padding:9px 11px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r);}
+.plan-filled-name{flex:1;font-size:.88rem;font-weight:700;color:var(--t1);}
+.plan-filled-sub{font-size:.66rem;color:var(--t3);margin-top:1px;}
+.plan-empty{display:flex;align-items:center;gap:10px;padding:9px 11px;background:var(--sf2);border:1px dashed var(--bd);border-radius:var(--r);cursor:pointer;opacity:.65;}
+.plan-empty span{font-size:.84rem;color:var(--t3);}
+
+/* ── Member avatar ── */
+.mav{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.92rem;font-weight:800;flex-shrink:0;}
+
+/* ── Search bar ── */
+.search-bar{display:flex;align-items:center;gap:9px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r);padding:9px 13px;}
+.search-bar svg{width:15px;height:15px;stroke:var(--t3);fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;}
+.search-bar input{flex:1;background:none;border:none;outline:none;color:var(--t1);font-family:'Inter',sans-serif;font-size:.9rem;font-weight:500;}
+.search-bar input::placeholder{color:var(--t3)}
+
+/* ── FAB ── */
+.fab{position:fixed;right:max(18px,calc(50% - 240px + 18px));bottom:calc(var(--nav-h) + var(--sb) + 14px);z-index:202;width:46px;height:46px;border-radius:50%;background:var(--green);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 18px rgba(34,197,94,.3);transition:transform .14s,opacity .14s;}
+.fab:active{transform:scale(.9);}
+.fab svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;}
+.fab.hide{opacity:0;pointer-events:none;}
+
+/* ── Recipe pick row ── */
+.rpick{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd2);cursor:pointer;}
+.rpick:last-child{border-bottom:none}
+.rpick:active{opacity:.65}
+.rpick-name{flex:1;font-size:.9rem;font-weight:600;color:var(--t1);}
+.rpick-sub{font-size:.68rem;color:var(--t3);margin-top:1px;}
+
+/* ── Meal type picker chips ── */
+.mchip-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
+.mchip{padding:6px 12px;border-radius:99px;border:1px solid var(--bd);background:var(--sf2);color:var(--t2);font-size:.78rem;font-weight:600;cursor:pointer;transition:all .12s;}
+.mchip.sel{background:var(--gbg);border-color:var(--gbd);color:var(--green);}
+
+/* ── Empty state ── */
+.empty{text-align:center;padding:28px 16px;color:var(--t3)}
+.empty-icon{font-size:1.4rem;margin-bottom:8px;opacity:.4}
+.empty-text{font-size:.84rem;line-height:1.5}
+</style>
+</head>
+<body>
+
+<!-- SHEET -->
+<div class="sov" id="sov" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet">
+  <div class="shdl"></div>
+  <div class="shhdr"><div class="shtitle" id="sh-title">—</div><div class="shclose" onclick="closeSheet()">✕</div></div>
+  <div class="shbody" id="sh-body"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ══ HOME ══ -->
+<div id="pg-home" class="pg active">
+  <div class="hdr"><div class="hdr-in">
+    <div class="hdr-l">
+      <div>
+        <div class="hdr-gr" id="hdr-gr">Today's plan</div>
+        <div class="hdr-nm">🍃 Healthy Kitchen</div>
+      </div>
+    </div>
+    <div class="hdr-r">
+      <div class="hdr-icon-btn" id="hdr-date-lbl" style="width:auto;padding:0 10px;font-size:.72rem;font-weight:700;color:var(--t2);border-radius:99px;"></div>
+    </div>
+  </div></div>
+  <div class="wrap" style="padding-top:18px;padding-bottom:24px;">
+    <div id="today-hero"></div>
+    <div class="nut-row" id="nut-row"></div>
+  </div>
+</div>
+
+<!-- ══ RECIPES ══ -->
+<div id="pg-recipes" class="pg">
+  <div class="hdr"><div class="hdr-in">
+    <div class="hdr-l"><div>
+      <div class="hdr-gr">Browse & manage</div>
+      <div class="hdr-nm">Recipes</div>
+    </div></div>
+    <div class="hdr-r">
+      <div class="hdr-icon-btn" id="recipe-count-lbl" style="width:auto;padding:0 10px;font-size:.72rem;font-weight:700;color:var(--t2);border-radius:99px;"></div>
+    </div>
+  </div></div>
+  <div class="wrap" style="padding-top:16px;padding-bottom:24px;">
+    <!-- search -->
+    <div class="search-bar" style="margin-bottom:10px">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="recipe-search" type="text" placeholder="Search recipes…" oninput="renderRecipes()"/>
+    </div>
+    <!-- meal type tabs -->
+    <div style="display:flex;gap:5px;overflow-x:auto;margin-bottom:10px;padding-bottom:2px;" id="meal-tabs"></div>
+    <!-- recipe cards -->
+    <div id="recipe-sections"></div>
+  </div>
+</div>
+
+<!-- ══ PLAN (CALENDAR) ══ -->
+<div id="pg-plan" class="pg">
+  <div class="hdr"><div class="hdr-in">
+    <div class="hdr-l"><div>
+      <div class="hdr-gr">Monthly view</div>
+      <div class="hdr-nm" id="cal-hdr-lbl">Plan</div>
+    </div></div>
+  </div></div>
+  <div class="wrap" style="padding-top:20px;padding-bottom:24px;">
+    <div class="cal-nav">
+      <div class="cal-nav-btn" onclick="changeMonth(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="cal-month-lbl" id="cal-month-lbl"></div>
+      <div class="cal-nav-btn" onclick="changeMonth(1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rx);padding:14px;margin-bottom:14px;">
+      <div class="cal-dow-row" id="cal-dows"></div>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+    <div class="lbl" style="margin-bottom:8px" id="plan-sel-lbl">TAP A DATE TO SEE ITS PLAN</div>
+    <div id="plan-day-detail"></div>
+  </div>
+</div>
+
+<!-- ══ SETTINGS ══ -->
+<div id="pg-settings" class="pg">
+  <div class="hdr"><div class="hdr-in">
+    <div class="hdr-l"><div>
+      <div class="hdr-gr">Preferences</div>
+      <div class="hdr-nm">Settings</div>
+    </div></div>
+  </div></div>
+  <div class="wrap" style="padding-top:20px;padding-bottom:24px;display:flex;flex-direction:column;gap:0;" id="settings-body"></div>
+</div>
+
+<!-- TAB BAR -->
+<nav class="tbar"><div class="tbar-in">
+  <button class="titem active" id="tab-home" onclick="switchTab('home')">
+    <div class="tico"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+    <span class="tlabel">Home</span>
+  </button>
+  <button class="titem" id="tab-recipes" onclick="switchTab('recipes')">
+    <div class="tico"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+    <span class="tlabel">Recipes</span>
+  </button>
+  <button class="titem" id="tab-plan" onclick="switchTab('plan')">
+    <div class="tico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+    <span class="tlabel">Plan</span>
+  </button>
+  <button class="titem" id="tab-settings" onclick="switchTab('settings')">
+    <div class="tico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+    <span class="tlabel">Settings</span>
+  </button>
+</div></nav>
+
+<button class="fab hide" id="fab" onclick="openAddSheet()">
+  <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+</button>
+
+<script>
+// ─── CONSTANTS ────────────────────────────────────────────────────────────
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const FULLDAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MEAL_TYPES=['Breakfast','Lunch','Dinner','Snack'];
+const MEAL_ICONS={Breakfast:'🌅',Lunch:'☀️',Dinner:'🌙',Snack:'🍵'};
+const ALL_TAGS=['Tiffin','Dal','Leaf Curry','Vegetable','High Protein','High Fibre','Low Cal','Quick','Andhra','Iron-Rich','Probiotic','Vegan'];
+const TAG_CLS={'Leaf Curry':'tc-g','Dal':'tc-b','Vegetable':'tc-a','Tiffin':'tc-b',
+  'High Protein':'tc-r','High Fibre':'tc-g','Iron-Rich':'tc-r','Low Cal':'tc-g','Quick':'tc-a',
+  'Andhra':'tc-p','Probiotic':'tc-g','Vegan':'tc-g','Healthy':'tc-g','Calcium-Rich':'tc-b',
+  'Low Carb':'tc-g','Light Dinner':'tc-a','No-Cook':'tc-g','Vitamin-Rich':'tc-b'};
+const FAV_COLORS=['#3b82f6','#ec4899','#22c55e'];
+
+// ─── SEED DATA ────────────────────────────────────────────────────────────
+const DEFAULT_MEMBERS=[
+  {id:'m1',name:'Nagendra',emoji:'👨',color:'#3b82f6',role:'Dad',favs:['Gongura Pappu','Pesarattu','Palak Pappu']},
+  {id:'m2',name:'Wife',emoji:'👩',color:'#ec4899',role:'Mom',favs:['Methi Sabzi','Drumstick Sambar','Gongura Paneer']},
+  {id:'m3',name:'Son',emoji:'👦',color:'#22c55e',role:'Kid',favs:['Idli Chutney','Upma','Tomato Pappu']},
+];
+const SEED_RECIPES=[
+
+  // ══════════════════════════════════════════════════════
+  // 🌅 BREAKFAST — 7 unique Telugu breakfasts (ఉదయం టిఫిన్)
+  // ══════════════════════════════════════════════════════
+
+  {id:'b1',name:'Millets Dosa + Palli Chutney',tel:'రాగి/జొన్న అట్టు - పల్లి చట్నీతో',
+   tags:['Tiffin','High Fibre','Healthy'],meal:['Breakfast'],kcal:175,time:20,favOf:[],
+   desc:'Crispy millets dosa (ragi or jowar) with roasted peanut chutney. Nutrient-rich, calcium-packed, low GI. Perfect village-style breakfast.',
+   ingredients:['Ragi flour / Jowar flour 1 cup','Rice flour ¼ cup','Onion 1 chopped fine','Green chilli 2 minced','Curry leaves','Coriander leaves','Cumin ½ tsp','Salt','Oil for cooking',
+     'FOR PALLI CHUTNEY: Roasted peanuts 1 cup','Garlic 3 cloves','Green chilli 2','Tamarind small piece','Salt','Oil 1 tsp, mustard ½ tsp, curry leaves for tempering'],
+   steps:['Mix ragi/jowar flour, rice flour, onion, green chilli, cumin, curry leaves, coriander, salt with water to thin pourable batter. Rest 10 min.',
+     'Heat iron tawa on medium-high. Pour thin ladle of batter, spread quickly.',
+     'Drizzle oil on edges. Cook till crisp (2–3 min). Serve immediately.',
+     'For Palli Chutney: Grind roasted peanuts, garlic, green chilli, tamarind, salt with little water to smooth paste.',
+     'Temper mustard + curry leaves in 1 tsp oil. Mix into chutney.']},
+
+  {id:'b2',name:'Idli + Palli Chutney',tel:'ఇడ్లీ - పల్లి చట్నీ',
+   tags:['Tiffin','Probiotic','Light'],meal:['Breakfast'],kcal:165,time:15,favOf:['m3'],
+   desc:'Soft steamed idlis with our family peanut chutney. Fermented batter is probiotic and great for digestion. Son loves it.',
+   ingredients:['Idli batter 2 cups (ready)','FOR PALLI CHUTNEY: Roasted peanuts 1 cup','Green chilli 2','Garlic 3 cloves','Tamarind small piece','Salt',
+     'Oil 1 tsp, mustard ½ tsp, curry leaves, dried red chilli 1'],
+   steps:['Grease idli moulds well with oil. Fill with batter ¾ full.',
+     'Steam in idli cooker on medium-high for 12–15 min. Insert toothpick to test — if clean, done.',
+     'Rest 2 min before removing. Idlis should come out clean.',
+     'For Palli Chutney: Grind peanuts, green chilli, garlic, tamarind and salt with very little water to thick paste.',
+     'Temper in hot oil: mustard, dried red chilli, curry leaves. Pour over chutney. Serve with hot idlis.']},
+
+  {id:'b3',name:'Pulihora',tel:'పులిహోర (చింతపండు పులిహోర)',
+   tags:['Rice','Andhra','Festival'],meal:['Breakfast','Lunch'],kcal:280,time:25,favOf:['m3'],
+   desc:'Andhra tamarind rice — the taste of temples and festivals. Tangy, spicy, peanut-crunchy. Son\'s absolute favourite. Travels well in lunchbox.',
+   ingredients:['Cooked sona masoori rice 2 cups (cooled)','Tamarind lemon-sized ball','Peanuts ¼ cup','Sesame seeds 1 tbsp (dry roasted)',
+     'Mustard seeds 1 tsp','Urad dal 1 tbsp','Chana dal 1 tbsp','Dried red chilli 4','Green chilli 3 slit','Curry leaves generous','Turmeric ½ tsp','Hing (asafoetida) ¼ tsp','Sesame oil / gingelly oil 3 tbsp','Salt'],
+   steps:['Soak tamarind in 1 cup warm water 20 min. Extract thick pulp. Discard fibres.',
+     'Heat gingelly oil in wide pan. Fry peanuts till crunchy. Remove and keep aside.',
+     'In same oil: add mustard, urad dal, chana dal, dried red chilli — fry till golden.',
+     'Add green chilli, hing, curry leaves, turmeric. Add tamarind pulp. Cook on medium 8–10 min till thick and raw smell goes.',
+     'Add cooled rice, peanuts, roasted sesame. Mix gently without breaking rice. Add salt. Rest 15 min before serving — tastes better after absorbing flavours.']},
+
+  {id:'b4',name:'Majjiga Attu (Challa Attu)',tel:'మజ్జిగ అట్టు / చల్లాట్టు',
+   tags:['Tiffin','Probiotic','Andhra'],meal:['Breakfast'],kcal:160,time:15,favOf:['m2'],
+   desc:'Wife\'s favourite! Andhra-style buttermilk dosas — soft, spongy, tangy. Made with rice flour + sour curd. Light and cooling.',
+   ingredients:['Rice flour 1½ cups','Sour curd / buttermilk 1 cup','Onion 1 finely chopped','Green chilli 2 minced','Cumin seeds ½ tsp','Curry leaves chopped','Coriander leaves','Salt','Oil for cooking'],
+   steps:['Mix rice flour, sour curd, onion, green chilli, cumin, curry leaves, coriander and salt.',
+     'Add water to make thin, smooth, pourable batter (thinner than idli batter).',
+     'Rest batter 15–20 min (or overnight for more tangy flavour).',
+     'Heat tawa on medium. Pour ladle of batter, spread gently in circles. Do NOT spread too thin.',
+     'Cover with lid. Cook on medium till edges lift (2–3 min). Drizzle small oil. Flip and cook 1 min. Serve with palli chutney.']},
+
+  {id:'b5',name:'Upma (Sooji / Tomato Bath)',tel:'ఉప్మా / టొమేటో బాత్',
+   tags:['Tiffin','Quick','Comfort'],meal:['Breakfast'],kcal:200,time:15,favOf:[],
+   desc:'Classic Telugu semolina upma — or tomato bath with tomato, onion, spices. Quick 15-min breakfast. Comforting and filling.',
+   ingredients:['Semolina (sooji) 1 cup','Onion 1 large','Tomato 2 (for tomato bath version)','Green chilli 2','Ginger 1 inch grated','Mustard seeds 1 tsp','Urad dal 1 tsp','Chana dal 1 tsp','Curry leaves','Cashews 10','Ghee / oil 2 tbsp','Salt','Lemon juice 1 tsp'],
+   steps:['Dry roast sooji in pan on medium heat 4–5 min till light golden and fragrant. Keep aside.',
+     'Heat ghee. Fry cashews golden, remove. Add mustard, urad dal, chana dal — fry till golden.',
+     'Add curry leaves, green chilli, ginger. Add onion, fry soft. (For tomato bath: add tomatoes, cook 3 min till mushy.)',
+     'Add 2 cups hot water + salt. Bring to rolling boil.',
+     'Add roasted sooji slowly, stirring continuously till all water absorbs (2–3 min). Top with cashews, finish with lemon juice.']},
+
+  {id:'b6',name:'Poori',tel:'పూరి (పూరీలు)',
+   tags:['Festival','Comfort','Fry'],meal:['Breakfast'],kcal:320,time:25,favOf:['m3'],
+   desc:'Son\'s favourite! Fluffy deep-fried pooris. Made for special mornings — Sundays, festivals. Serve with potato curry or just sugar.',
+   ingredients:['Wheat flour (maida or atta) 2 cups','Salt ½ tsp','Oil 1 tsp (in dough)','Water to knead','Oil for deep frying'],
+   steps:['Mix flour, salt, 1 tsp oil. Gradually add water (less than chapati dough) to form stiff, smooth dough. Rest 15 min.',
+     'Divide into small equal balls. Roll each into small 4-inch circles — not too thin.',
+     'Heat oil in deep pan on medium-high. Test with small piece — should rise immediately.',
+     'Slide poori gently into oil. Press centre lightly with back of ladle — it will puff up.',
+     'Flip after 30 sec. Both sides should be light golden. Drain on paper. Serve immediately with aloo curry or sugar.']},
+
+  {id:'b7',name:'Chapati',tel:'చపాతి (రోటీ)',
+   tags:['Healthy','Daily','Wheat'],meal:['Breakfast','Dinner'],kcal:120,time:20,favOf:[],
+   desc:'Soft whole wheat chapatis — healthy daily bread. 2 chapatis = 1 serving. Pairs with any curry. Light and nutritious for the whole family.',
+   ingredients:['Whole wheat flour (atta) 2 cups','Salt ¼ tsp','Water (warm) as needed','Oil / ghee ½ tsp per chapati'],
+   steps:['Mix atta with salt. Add warm water gradually, knead to soft, smooth dough (softer than poori dough). Rest 15–20 min.',
+     'Divide into equal lime-sized balls. Dust with dry flour.',
+     'Roll each ball into thin 6-inch circle. Dust to prevent sticking.',
+     'Cook on hot iron tawa — 30 sec first side till small bubbles appear. Flip.',
+     'Press edges with cloth. Flip again directly on flame — chapati puffs up. Apply ghee. Serve hot.']},
+
+  // ══════════════════════════════════════════════════════
+  // ☀️ LUNCH — 7 unique Telugu lunch combinations (మధ్యాహ్న భోజనం)
+  // ══════════════════════════════════════════════════════
+
+  {id:'l1',name:'Gongura Rice + Pappu',tel:'గోంగూర అన్నం + పప్పు',
+   tags:['Andhra','Leaf Curry','Tangy'],meal:['Lunch'],kcal:380,time:30,favOf:['m1'],
+   desc:'Nagendra\'s all-time favourite! Gongura (sorrel) rice cooked in Andhra style — tangy, spicy, aromatic. Served with simple toor dal pappu.',
+   ingredients:['Cooked sona masoori rice 2 cups','Gongura leaves 2 cups (washed)','Green chilli 4','Garlic 6 cloves','Mustard seeds 1 tsp','Urad dal 1 tbsp','Dried red chilli 3','Curry leaves','Turmeric ½ tsp','Sesame oil 3 tbsp','Salt',
+     'FOR PAPPU: Toor dal ½ cup, tomato 1, turmeric ¼ tsp, mustard ½ tsp, curry leaves, oil 1 tsp'],
+   steps:['Cook toor dal with tomato and turmeric. Mash, temper with mustard and curry leaves. Keep aside.',
+     'Blanch gongura leaves in boiling water 5 min. Drain and grind with green chilli, garlic to coarse paste.',
+     'Heat sesame oil in large pan. Add mustard, urad dal, dried red chilli, curry leaves, turmeric — fry till golden.',
+     'Add gongura paste. Cook on medium 8–10 min stirring till raw smell leaves and oil separates slightly.',
+     'Add cooled rice. Mix well without breaking. Taste and adjust salt. Serve with pappu and papad.']},
+
+  {id:'l2',name:'Tomato Rice + Perugu',tel:'టొమేటో అన్నం + పెరుగు',
+   tags:['Rice','Quick','Tangy'],meal:['Lunch'],kcal:310,time:20,favOf:[],
+   desc:'Spiced tomato rice cooked in one pot — tangy, comforting, village style. Pair with cold curd (perugu) to balance the spice.',
+   ingredients:['Sona masoori rice 1 cup','Tomato 3 large ripe','Onion 1 medium','Green chilli 2','Ginger-garlic paste 1 tsp','Red chilli powder 1 tsp','Turmeric ½ tsp','Mustard seeds 1 tsp','Urad dal 1 tsp','Curry leaves','Coriander leaves','Oil 2 tbsp','Salt',
+     'Curd (perugu) 1 cup to serve'],
+   steps:['Heat oil in pressure cooker. Temper mustard, urad dal, curry leaves.',
+     'Add onion, green chilli, ginger-garlic paste — fry till golden.',
+     'Add tomatoes and cook on medium till completely mushy and oil separates (8 min).',
+     'Add red chilli, turmeric, salt. Add washed rice. Mix well.',
+     'Add 2 cups water. Pressure cook 2 whistles. Open after pressure releases. Fluff gently. Garnish coriander. Serve with cold perugu.']},
+
+  {id:'l3',name:'Mulakaya Kura + Rice',tel:'మునక్కాయ కూర + అన్నం',
+   tags:['Vegetable','Andhra','Vitamin-Rich'],meal:['Lunch'],kcal:290,time:35,favOf:['m2'],
+   desc:'Drumstick (mulakaya) curry in Andhra style — tangy and spicy with coconut. Vitamin C, iron, calcium all in one curry. Wife\'s favourite side dish.',
+   ingredients:['Drumstick (mulakaya) 3 (cut 3-inch pieces)','Onion 1','Tomato 2','Green chilli 2','Coconut scraped 3 tbsp','Red chilli powder 1 tsp','Turmeric ¼ tsp','Coriander powder 1 tsp','Mustard seeds ½ tsp','Curry leaves','Oil 2 tbsp','Salt',
+     'Sona masoori rice to serve'],
+   steps:['Cook drumstick pieces in pressure cooker with little water and salt for 2 whistles.',
+     'Heat oil; temper mustard and curry leaves. Add onion, green chilli — fry golden.',
+     'Add tomatoes, cook soft. Add red chilli, turmeric, coriander powder.',
+     'Add cooked drumstick pieces with water. Simmer 10 min.',
+     'Add scraped coconut; mix and cook 3 min. Serve with hot rice.']},
+
+  {id:'l4',name:'Chikkudukaya Tomato Kura + Rice',tel:'చిక్కుడుకాయ టొమేటో కూర + అన్నం',
+   tags:['Vegetable','High Protein','Andhra'],meal:['Lunch'],kcal:260,time:25,favOf:[],
+   desc:'Broad beans (chikkudukaya) cooked with tomatoes in Andhra style. High protein from the beans, rich in fibre. Village home comfort food.',
+   ingredients:['Chikkudukaya (broad beans / flat beans) 250g','Tomato 2','Onion 1','Green chilli 3','Garlic 4 cloves','Red chilli powder 1 tsp','Turmeric ¼ tsp','Coriander powder 1 tsp','Mustard seeds ½ tsp','Curry leaves','Oil 2 tbsp','Salt',
+     'Rice to serve'],
+   steps:['String and chop chikkudukaya into 1-inch pieces. Wash well.',
+     'Temper mustard, curry leaves, garlic in hot oil. Add onion, green chilli — fry till soft.',
+     'Add tomatoes; cook till mushy. Add red chilli, turmeric, coriander powder.',
+     'Add chikkudukaya pieces with ½ cup water. Cover and cook on medium 15 min till tender.',
+     'Check salt. Serve with steamed rice.']},
+
+  {id:'l5',name:'Beerakaya Kodi Guddu Kura + Rice',tel:'బీరకాయ కోడి గుడ్డు కూర + అన్నం',
+   tags:['Non-Veg','High Protein','Andhra'],meal:['Lunch'],kcal:320,time:30,favOf:['m1'],
+   desc:'Ridge gourd cooked with boiled eggs in Andhra curry — light, high protein, family favourite. Beerakaya absorbs all the masala beautifully.',
+   ingredients:['Ridge gourd (beerakaya) 2 medium','Boiled eggs 3 (halved)','Onion 1','Tomato 2','Green chilli 2','Ginger-garlic paste 1 tsp','Red chilli powder 1 tsp','Turmeric ¼ tsp','Coriander powder 1 tsp','Mustard seeds ½ tsp','Curry leaves','Oil 2 tbsp','Coriander leaves','Salt',
+     'Rice to serve'],
+   steps:['Peel and cube beerakaya. Boil eggs, peel and halve.',
+     'Heat oil; temper mustard, curry leaves. Add onion, green chilli — fry golden.',
+     'Add ginger-garlic paste, tomatoes, all masala powders. Cook till oil separates.',
+     'Add beerakaya with ½ cup water. Cover and cook 10 min till tender.',
+     'Add boiled egg halves. Simmer 5 min. Garnish coriander. Serve with hot rice.']},
+
+  {id:'l6',name:'Pappu (Palak / Chinta Chiguru) + Rice',tel:'పాలకూర పప్పు / చింత చిగురు పప్పు + అన్నం',
+   tags:['Dal','Leaf Curry','Iron-Rich'],meal:['Lunch'],kcal:270,time:25,favOf:['m1'],
+   desc:'Andhra-style pappu with palak (spinach) or tender tamarind leaves (chinta chiguru). Simple, soul-satisfying. The backbone of every Telugu lunch.',
+   ingredients:['Toor dal ½ cup','Palak (spinach) 2 cups OR Chinta chiguru (tamarind young leaves) 1 cup','Tomato 1','Green chilli 2','Turmeric ¼ tsp','Tamarind tiny piece (only if using palak)','Mustard seeds ½ tsp','Cumin ½ tsp','Dried red chilli 2','Curry leaves','Garlic 3 cloves','Oil 1.5 tbsp','Salt',
+     'Rice to serve'],
+   steps:['Wash toor dal. Pressure cook with greens, tomato, green chilli, turmeric (3 whistles). Mash well.',
+     'Add tamarind extract if using palak. Simmer 5 min. Adjust salt and consistency.',
+     'For tempering: heat oil; add mustard, cumin, garlic, dried red chilli, curry leaves — fry till golden.',
+     'Pour tempering over pappu. Serve with hot rice, papad and pickle.']},
+
+  {id:'l7',name:'Bangaladumpa Tomato Kura + Rice',tel:'బంగాళాదుంప టొమేటో కూర + అన్నం',
+   tags:['Vegetable','Comfort','Andhra'],meal:['Lunch'],kcal:255,time:25,favOf:['m3'],
+   desc:'Potato tomato curry Andhra style — no onion/garlic version also possible. Comforting, thick, perfect with hot rice. Son loves this!',
+   ingredients:['Potato (bangaladumpa) 3 medium (cubed)','Tomato 2','Green chilli 2','Red chilli powder 1 tsp','Turmeric ¼ tsp','Coriander powder 1 tsp','Mustard seeds ½ tsp','Cumin ½ tsp','Curry leaves','Coriander leaves','Oil 2 tbsp','Salt',
+     'Rice to serve'],
+   steps:['Cube potatoes and soak in water (prevents browning).',
+     'Heat oil; temper mustard, cumin, curry leaves. Add green chilli.',
+     'Add tomatoes; cook till soft. Add red chilli, turmeric, coriander powder.',
+     'Drain and add potato cubes. Mix to coat. Add ½ cup water and salt.',
+     'Cover and cook on medium 15 min till potatoes are fully tender. Mash 2–3 pieces to thicken gravy. Garnish coriander.']},
+
+  // ══════════════════════════════════════════════════════
+  // 🌙 DINNER — 7 unique dinners (రాత్రి భోజనం — no heavy rice)
+  // ══════════════════════════════════════════════════════
+
+  {id:'d1',name:'Chapati + Kodiguddu Pulusu',tel:'చపాతి + కోడిగుడ్డు పులుసు',
+   tags:['Non-Veg','High Protein','Andhra'],meal:['Dinner'],kcal:360,time:35,favOf:['m1'],
+   desc:'Andhra egg pulusu — tangy, spicy, tamarind-based egg curry. Served with 2 soft chapatis. High protein, deeply flavourful.',
+   ingredients:['Boiled eggs 4 (whole, peeled)','Onion 2 large (sliced)','Tomato 2','Tamarind lemon-sized ball','Red chilli powder 1.5 tsp','Turmeric ½ tsp','Coriander powder 1 tsp','Garam masala ¼ tsp','Mustard seeds ½ tsp','Curry leaves','Oil 3 tbsp','Coriander leaves','Salt',
+     '2 chapatis per person'],
+   steps:['Soak tamarind in 1 cup warm water. Extract thick pulp.',
+     'Fry whole boiled eggs in 1 tsp oil till light golden all over. Remove and set aside.',
+     'In same pan: heat remaining oil. Add mustard, curry leaves. Add onion — fry till deep golden (10 min).',
+     'Add tomatoes, cook till mushy. Add all masala powders, cook till oil separates.',
+     'Add tamarind pulp + 1 cup water. Bring to boil. Add fried eggs. Simmer 10 min till gravy thickens. Garnish coriander. Serve with chapati.']},
+
+  {id:'d2',name:'Chapati + Pappu Curry',tel:'చపాతి + పప్పు కూర',
+   tags:['Dal','Vegetarian','Light Dinner'],meal:['Dinner'],kcal:280,time:25,favOf:[],
+   desc:'Soft chapatis with a slightly watery Andhra pappu. Light, nutritious dinner — easy on digestion. Good for all family members.',
+   ingredients:['Toor dal ½ cup','Tomato 2','Green chilli 2','Turmeric ¼ tsp','Mustard seeds ½ tsp','Cumin ½ tsp','Dried red chilli 2','Curry leaves','Garlic 3 cloves','Oil 1.5 tbsp','Salt',
+     'Chapati 2 per person (whole wheat)'],
+   steps:['Pressure cook toor dal with tomatoes, green chilli, turmeric (3 whistles). Mash well.',
+     'Add salt; keep slightly runny (thinner than lunch pappu) to dip chapati.',
+     'Temper mustard, cumin, garlic, red chilli, curry leaves in hot oil. Pour over pappu.',
+     'Make soft chapatis (see Chapati recipe). Serve warm pappu with hot chapatis.']},
+
+  {id:'d3',name:'Chapati + Methi Kura',tel:'చపాతి + మెంతి కూర',
+   tags:['Leaf Curry','High Fibre','Healthy'],meal:['Dinner'],kcal:230,time:22,favOf:['m2'],
+   desc:'Wife\'s favourite — bitter fenugreek leaf stir-fry with chapatis. Anti-diabetic, iron-rich, great for women\'s health.',
+   ingredients:['Methi leaves (menthikura) 2 bunches','Onion 1','Garlic 4 cloves','Green chilli 1','Turmeric ¼ tsp','Red chilli powder ½ tsp','Cumin ½ tsp','Oil 1.5 tbsp','Salt',
+     'Chapati 2 per person'],
+   steps:['Chop methi leaves. Sprinkle 1 tsp salt on them, mix and rest 10 min. Squeeze out excess moisture (removes bitterness).',
+     'Heat oil; add cumin, garlic, green chilli. Add onion, fry till golden.',
+     'Add squeezed methi leaves. Add turmeric and red chilli powder.',
+     'Stir-fry on medium-high 8–10 min till moisture evaporates and leaves are dry. Check salt.',
+     'Serve with hot fresh chapatis.']},
+
+  {id:'d4',name:'Chapati + Chikkudukaya Kura',tel:'చపాతి + చిక్కుడుకాయ కూర',
+   tags:['Vegetable','High Protein','Andhra'],meal:['Dinner'],kcal:260,time:25,favOf:[],
+   desc:'Broad beans curry with chapatis for dinner — high plant protein, high fibre. Light but filling dinner for the family.',
+   ingredients:['Chikkudukaya 200g (chopped)','Tomato 2','Onion 1','Green chilli 2','Red chilli powder 1 tsp','Turmeric ¼ tsp','Mustard seeds ½ tsp','Curry leaves','Oil 2 tbsp','Salt',
+     'Chapati 2 per person'],
+   steps:['String and chop chikkudukaya. Wash well.',
+     'Temper mustard, curry leaves in oil. Add onion, green chilli.',
+     'Add tomatoes; cook till mushy. Add spices.',
+     'Add chikkudukaya with ¼ cup water. Cover, cook 12–15 min till tender.',
+     'Serve with hot chapatis.']},
+
+  {id:'d5',name:'Chapati + Bangaladumpa Masala',tel:'చపాతి + బంగాళాదుంప మసాలా',
+   tags:['Vegetable','Comfort','Quick'],meal:['Dinner'],kcal:290,time:20,favOf:['m3'],
+   desc:'Dry potato masala as chapati side — son\'s favourite combo for dinner. Spiced just right for all ages.',
+   ingredients:['Potato 3 (boiled and cubed)','Onion 1','Green chilli 2','Red chilli powder ½ tsp','Turmeric ¼ tsp','Mustard seeds ½ tsp','Curry leaves','Coriander leaves','Oil 1.5 tbsp','Salt',
+     'Chapati 2 per person'],
+   steps:['Boil potatoes, peel and cube. Keep aside.',
+     'Heat oil; temper mustard, curry leaves. Add onion, green chilli — fry golden.',
+     'Add turmeric and red chilli powder. Add potato cubes.',
+     'Toss to coat. Cook 5 min on medium. Mash few pieces slightly.',
+     'Add salt, garnish coriander. Serve dry with hot chapatis.']},
+
+  {id:'d6',name:'Majjiga Attu + Palli Chutney',tel:'మజ్జిగ అట్టు + పల్లి చట్నీ',
+   tags:['Tiffin','Probiotic','Light Dinner'],meal:['Dinner'],kcal:195,time:15,favOf:['m2'],
+   desc:'Wife\'s favourite for a light dinner — buttermilk dosas are easy to digest in the evening. Cooling, probiotic, perfect summer dinner.',
+   ingredients:['Rice flour 1½ cups','Sour curd 1 cup','Onion 1 chopped','Green chilli 2','Cumin ½ tsp','Curry leaves','Coriander','Salt',
+     'Palli chutney (see recipe b2)'],
+   steps:['Mix rice flour with sour curd, onion, green chilli, cumin, curry leaves, salt and water to thin batter.',
+     'Rest 20 min or use overnight batter for best results.',
+     'Cook thick, soft dosas on medium tawa. Cover with lid while cooking.',
+     'Serve 2–3 dosas with palli chutney.']},
+
+  {id:'d7',name:'Poori + Bangaladumpa Kura',tel:'పూరీ + బంగాళాదుంప కూర (Special Sunday)',
+   tags:['Festival','Comfort','Weekend'],meal:['Dinner'],kcal:420,time:30,favOf:['m3'],
+   desc:'Son\'s favourite Sunday treat — fluffy pooris with potato curry. Made on weekends or special evenings. A Telugu family tradition.',
+   ingredients:['Wheat flour 2 cups','Salt ½ tsp','Oil for frying',
+     'FOR KURA: Potato 4 (boiled)','Onion 1','Tomato 1','Green chilli 2','Red chilli powder ½ tsp','Turmeric ¼ tsp','Mustard seeds ½ tsp','Curry leaves','Oil 2 tbsp','Salt'],
+   steps:['Make stiff poori dough. Rest 15 min. Roll small circles.',
+     'For aloo kura: temper mustard, curry leaves, onion. Add tomato, spices, boiled potatoes. Mash partially.',
+     'Heat oil on medium-high. Fry pooris till golden and puffed.',
+     'Drain on paper. Serve immediately with hot potato kura.']},
+
+  // ══════════════════════════════════════════════════════
+  // 🍵 SNACKS — 7 unique evening snacks (సాయంత్రం స్నాక్స్)
+  // ══════════════════════════════════════════════════════
+
+  {id:'s1',name:'Challa Mirapakayalu + Rice',tel:'చల్లా మిరపకాయలు + అన్నం (పొద్దున)',
+   tags:['Andhra','Spicy','Traditional'],meal:['Snack'],kcal:85,time:5,favOf:[],
+   desc:'Buttermilk chillies fried in oil — the ultimate Telugu table condiment. A tiny side that transforms any meal. Always on the table.',
+   ingredients:['Sun-dried challa mirapakayalu 6–8','Oil 2 tbsp','Salt if needed'],
+   steps:['Heat oil in small pan on medium-high.',
+     'Add challa mirapakayalu — they will sizzle and puff up.',
+     'Fry till light brown (30 sec per side). Do not over-fry.',
+     'Serve immediately alongside rice, pappu, or any meal.']},
+
+  {id:'s2',name:'Pesarattu + Allam Chutney',tel:'పెసరట్టు + అల్లం చట్నీ',
+   tags:['Tiffin','High Protein','Evening Snack'],meal:['Snack'],kcal:180,time:20,favOf:['m1'],
+   desc:'Moong dal dosa as evening snack with ginger chutney — protein-rich, keeps hunger away till dinner.',
+   ingredients:['Green moong dal 1 cup (soaked 4 hr)','Green chilli 2','Ginger 1 inch','Cumin 1 tsp','Onion 1 chopped','Salt','Oil',
+     'FOR ALLAM CHUTNEY: Ginger 2 inch piece','Green chilli 3','Tamarind small piece','Jaggery tiny piece','Salt','Oil 1 tsp, mustard ½ tsp, curry leaves'],
+   steps:['Drain moong dal. Grind with green chilli, ginger, cumin to smooth batter. Add salt and onion.',
+     'For allam chutney: grind ginger, green chilli, tamarind, jaggery, salt with little water to smooth paste.',
+     'Temper mustard + curry leaves in oil; add to chutney.',
+     'Make dosas on hot tawa. Serve hot with allam chutney.']},
+
+  {id:'s3',name:'Banana + Jaggery',tel:'అరటిపండు + బెల్లం',
+   tags:['Fruit','Energy','Kid-Friendly'],meal:['Snack'],kcal:145,time:2,favOf:['m3'],
+   desc:'Village tradition — ripe banana with a small piece of jaggery. Natural energy, potassium, iron. Son\'s after-school snack.',
+   ingredients:['Ripe banana (arati pandu) 2','Jaggery (bellam) 1 small piece (15g)'],
+   steps:['Peel ripe bananas.','Eat with a small piece of jaggery on the side.','The sweetness of banana + jaggery together is a classic Telugu combination.']},
+
+  {id:'s4',name:'Murukku + Tea',tel:'మురుక్కు + టీ',
+   tags:['Crispy','Traditional','Tea-Time'],meal:['Snack'],kcal:130,time:3,favOf:[],
+   desc:'Crispy rice flour murukku with evening chai — the classic 4 PM Telugu household snack. Homemade or from local shops.',
+   ingredients:['Rice flour murukku 4–5 pieces (homemade or bought)','Tea / chai 1 cup'],
+   steps:['Brew strong tea with ginger and cardamom.','Serve murukku with hot tea.','Homemade murukku: mix rice flour, butter, cumin, sesame, red chilli, salt and water. Press through murukku press into hot oil. Fry till crispy.']},
+
+  {id:'s5',name:'Sprouts Sundal',tel:'పచ్చి మినుము సుందల్',
+   tags:['High Protein','Healthy','Evening Snack'],meal:['Snack'],kcal:110,time:10,favOf:[],
+   desc:'Boiled green moong or chana tempered with mustard and coconut — healthy high-protein snack. Popular in Andhra homes especially on fasting days.',
+   ingredients:['Green moong / kabuli chana ¾ cup (soaked overnight, boiled)','Scraped coconut 2 tbsp','Green chilli 1','Mustard seeds ½ tsp','Urad dal ½ tsp','Curry leaves','Red dried chilli 1','Oil 1 tsp','Salt','Lemon juice 1 tsp'],
+   steps:['Soak moong overnight. Pressure cook with salt 2 whistles till just cooked (not mushy).',
+     'Heat oil; temper mustard, urad dal, curry leaves, dried red chilli.',
+     'Add boiled moong; toss well. Add scraped coconut, green chilli, salt and lemon juice.',
+     'Mix gently. Serve warm.']},
+
+  {id:'s6',name:'Buttermilk (Majjiga)',tel:'మజ్జిగ (చల్లా)',
+   tags:['Probiotic','Low Cal','Cooling'],meal:['Snack'],kcal:55,time:3,favOf:[],
+   desc:'Spiced buttermilk — cooling, digestive, probiotic. Daily must in Telugu households especially after lunch. Best thing for summers in Andhra.',
+   ingredients:['Curd (perugu) ½ cup','Cold water 1 cup','Green chilli 1 slit','Ginger ¼ inch grated','Curry leaves 5–6','Coriander leaves','Roasted cumin powder ¼ tsp','Salt to taste'],
+   steps:['Whisk curd with cold water until smooth and frothy.',
+     'Add green chilli, grated ginger, curry leaves, coriander, cumin powder and salt.',
+     'Mix well. Taste and adjust. Serve chilled.',
+     'Optional: temper mustard + curry leaves in ¼ tsp oil and add for extra flavour.']},
+
+  {id:'s7',name:'Nuvvula Laddu',tel:'నువ్వుల లడ్డూ (Sesame Ball)',
+   tags:['Traditional','Iron-Rich','Sweet'],meal:['Snack'],kcal:160,time:15,favOf:[],
+   desc:'Traditional Telugu sesame seed balls with jaggery — iron-rich, calcium-rich, great for women and children. Made in winters or as a treat.',
+   ingredients:['White sesame seeds (nuvvulu) 1 cup','Jaggery (bellam) ½ cup grated','Cardamom powder ¼ tsp','Ghee 1 tsp'],
+   steps:['Dry roast sesame seeds on low heat 5–6 min till golden and aromatic. Keep aside to cool.',
+     'Melt jaggery in 2 tbsp water. Cook on medium till it reaches sticky consistency (soft ball stage).',
+     'Add roasted sesame and cardamom powder. Mix quickly.',
+     'Grease palms with ghee. Take small portions and roll into tight balls while still warm.']},
+];
+
+// ═══════ 7-DAY PLAN — every day unique, no repeats ═══════
+// Sun=0 Mon=1 Tue=2 Wed=3 Thu=4 Fri=5 Sat=6
+const WEEKLY_TPL=[
+  {Breakfast:'b1',Lunch:'l1',Dinner:'d1',Snack:'s1'},  // Sun:  Millets Dosa  | Gongura Rice+Pappu | Chapati+Kodiguddu Pulusu | Challa Mirapakayalu
+  {Breakfast:'b2',Lunch:'l2',Dinner:'d2',Snack:'s2'},  // Mon:  Idli+Palli    | Tomato Rice+Perugu | Chapati+Pappu Curry      | Pesarattu+Allam Chutney
+  {Breakfast:'b3',Lunch:'l3',Dinner:'d3',Snack:'s3'},  // Tue:  Pulihora      | Mulakaya Kura+Rice | Chapati+Methi Kura       | Banana+Jaggery
+  {Breakfast:'b4',Lunch:'l4',Dinner:'d4',Snack:'s4'},  // Wed:  Majjiga Attu  | Chikkudu Kura+Rice | Chapati+Chikkudu Kura    | Murukku+Tea
+  {Breakfast:'b5',Lunch:'l5',Dinner:'d5',Snack:'s5'},  // Thu:  Upma          | Beerakaya Guddu+R  | Chapati+Aloo Masala      | Sprouts Sundal
+  {Breakfast:'b6',Lunch:'l6',Dinner:'d6',Snack:'s6'},  // Fri:  Poori         | Pappu+Rice         | Majjiga Attu+Palli Chutn | Majjiga (Buttermilk)
+  {Breakfast:'b7',Lunch:'l7',Dinner:'d7',Snack:'s7'},  // Sat:  Chapati       | Bangaladumpa+Rice  | Poori+Aloo Kura (special)| Nuvvula Laddu
+];
+
+// ─── DATA ────────────────────────────────────────────────────────────────
+let D={recipes:[],plan:{},members:[],settings:{theme:'dark',fontSize:16,servings:3}};
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
+function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
+function save(){localStorage.setItem('hkv4',JSON.stringify({...D,_v:4}));}
+function load(){try{const r=JSON.parse(localStorage.getItem('hkv4'));if(r&&r._v===4)D={...D,...r};}catch(e){}}
+load();
+if(!D.recipes||!D.recipes.length)D.recipes=SEED_RECIPES.map(r=>({...r}));
+if(!D.members||!D.members.length)D.members=DEFAULT_MEMBERS.map(m=>({...m}));
+(function(){
+  const today=new Date(),dow=today.getDay();
+  for(let i=0;i<7;i++){
+    const d=new Date(today);d.setDate(today.getDate()-dow+i);
+    const k=dk(d);if(!D.plan[k])D.plan[k]={};
+    const t=WEEKLY_TPL[i];
+    Object.keys(t).forEach(mt=>{if(!D.plan[k][mt])D.plan[k][mt]={recipeId:t[mt]};});
+  }
+})();
+save();
+
+// ─── DATE HELPERS ────────────────────────────────────────────────────────
+function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function todayKey(){return dk(new Date());}
+function weekDates(){
+  const t=new Date(),dow=t.getDay();
+  return Array.from({length:7},(_,i)=>{const d=new Date(t);d.setDate(t.getDate()-dow+i);return d;});
+}
+
+// ─── THEME / FONT ────────────────────────────────────────────────────────
+function applyTheme(t){document.documentElement.setAttribute('data-theme',t==='dark'?'':t==='soft-dark'?'soft-dark':'light');D.settings.theme=t;save();}
+function applyFontSize(n){document.documentElement.style.fontSize=n+'px';D.settings.fontSize=n;save();document.querySelectorAll('.fsbtn').forEach(b=>{b.classList.toggle('on',+b.dataset.sz===n);});}
+function initAppearance(){
+  const t=D.settings.theme||'dark';
+  if(t!=='dark')document.documentElement.setAttribute('data-theme',t);
+  document.documentElement.style.fontSize=(D.settings.fontSize||16)+'px';
+}
+initAppearance();
+
+// ─── TOAST ───────────────────────────────────────────────────────────────
+let _tt;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),2400);}
+
+// ─── SHEET ───────────────────────────────────────────────────────────────
+function openSheet(title,html){
+  document.getElementById('sh-title').textContent=title;
+  document.getElementById('sh-body').innerHTML=html;
+  document.getElementById('sheet').classList.add('open');
+  document.getElementById('sov').classList.add('open');
+}
+function closeSheet(){
+  document.getElementById('sheet').classList.remove('open');
+  document.getElementById('sov').classList.remove('open');
+}
+
+// ─── COLLAPSIBLE ──────────────────────────────────────────────────────────
+function toggleSec(id){
+  const b=document.getElementById('b-'+id);
+  const c=document.getElementById('c-'+id);
+  if(!b||!c)return;
+  const open=b.classList.toggle('open');
+  c.classList.toggle('open',open);
+}
+
+// ─── TAB ────────────────────────────────────────────────────────────────
+let curTab='home';
+function switchTab(tab){
+  curTab=tab;
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.titem').forEach(n=>n.classList.remove('active'));
+  document.getElementById('pg-'+tab).classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.getElementById('fab').classList.toggle('hide',tab!=='recipes');
+  if(tab==='home')renderHome();
+  if(tab==='recipes')renderRecipes();
+  if(tab==='plan')renderPlan();
+  if(tab==='settings')renderSettings();
+}
+function openAddSheet(){openAddRecipeSheet();}
+
+// ─── HOME ────────────────────────────────────────────────────────────────
+function renderHome(){
+  const today=new Date();
+  const tk=todayKey();
+  document.getElementById('hdr-date-lbl').textContent=today.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
+  document.getElementById('hdr-gr').textContent=greetingText();
+
+  // Today hero
+  const plan=D.plan[tk]||{};
+  let totalKcal=0,proteinMeals=0;
+  const mealRows=MEAL_TYPES.map(type=>{
+    const meal=plan[type];
+    const recipe=meal?D.recipes.find(r=>r.id===meal.recipeId):null;
+    if(recipe){
+      totalKcal+=(recipe.kcal||0);
+      if((recipe.tags||[]).includes('High Protein'))proteinMeals++;
+      const favMs=D.members.filter(m=>(recipe.favOf||[]).includes(m.id));
+      const foodEmoji=RECIPE_EMOJI[recipe.id]||'🍽️';
+      const favLine=favMs.length
+        ? `<span style="font-size:.66rem;color:var(--amber);font-weight:600">❤️ ${favMs.map(m=>m.name).join(' & ')}'s fave</span>`
+        : `<span style="font-size:.66rem;color:var(--t3)">${(recipe.tags||[]).slice(0,2).join(' · ')}</span>`;
+      return `<div class="meal-row" onclick="openRecipeDetail('${recipe.id}')">
+        <div style="width:38px;height:38px;border-radius:11px;background:var(--gbg);border:1px solid var(--gbd);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">${foodEmoji}</div>
+        <div class="meal-body">
+          <div class="meal-type-lbl">${MEAL_ICONS[type]} ${type}</div>
+          <div class="meal-name">${esc(recipe.name)}</div>
+          ${recipe.tel?`<div style="font-size:.64rem;color:var(--t3)">${esc(recipe.tel)}</div>`:''}
+          <div class="meal-sub">${favLine}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0">
+          <div class="meal-kcal">${recipe.kcal?recipe.kcal+' kcal':''}</div>
+          ${recipe.time?`<div style="font-size:.62rem;color:var(--t3)">⏱ ${recipe.time}m</div>`:''}
+          <div class="rchev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </div>
+      </div>`;
+    }
+    return `<div class="meal-empty-row" onclick="openPlanDaySheet('${tk}','${type}')">
+      <div class="meal-ico">${MEAL_ICONS[type]}</div>
+      <div class="meal-body">
+        <div class="meal-type-lbl">${type}</div>
+        <div class="meal-name" style="color:var(--t3);font-weight:500">Tap to plan ${type.toLowerCase()}</div>
+      </div>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </div>`;
+  }).join('');
+
+  // Daily nutrition tip rotation
+  const TIPS=[
+  'నీళ్ళు ఎక్కువ తాగండి — రోజూ 8 గ్లాసులు 💧',
+  'ఈ రోజు భోజనం మీ కుటుంబానికి ప్రేమతో వండారు 🌿',
+  'జొన్న / రాగి అట్టు వండండి — బలమైన ఆరోగ్యం 🌾',
+  'పచ్చి కూరగాయలు రోజూ తినండి — మంచి జీర్ణశక్తి 🥬',
+  'రాత్రి తేలికగా తినండి — మంచి నిద్ర వస్తుంది 🌙',
+  'మజ్జిగ రోజూ తాగండి — జీర్ణక్రియ మెరుగవుతుంది 🥛',
+  'ఈ రోజు ఆదివారం — కుటుంబంతో కలిసి తినండి ❤️'
+];
+  const tip=TIPS[today.getDay()];
+  document.getElementById('today-hero').innerHTML=`
+    <div style="background:var(--gbg);border:1px solid var(--gbd);border-radius:var(--r);padding:10px 13px;margin-bottom:10px;display:flex;align-items:center;gap:8px">
+      <span style="font-size:1rem">💡</span>
+      <span style="font-size:.76rem;color:var(--green);font-weight:600;line-height:1.45">${tip}</span>
+    </div>
+    <div class="hero-card">
+      <div class="hero-top">
+        <div class="hero-eyebrow">${FULLDAYS[today.getDay()]} · ${today.toLocaleDateString('en-IN',{day:'numeric',month:'long'})}</div>
+        <div class="hero-title">Today's Meals</div>
+      </div>
+      ${mealRows}
+    </div>`;
+
+  document.getElementById('nut-row').innerHTML=`
+    <div class="nut-chip"><div class="nut-v">${totalKcal||'—'}</div><div class="nut-l">Calories</div></div>
+    <div class="nut-chip"><div class="nut-v">${Object.keys(plan).length}</div><div class="nut-l">Meals</div></div>
+    <div class="nut-chip"><div class="nut-v">${proteinMeals}</div><div class="nut-l">Protein</div></div>
+    <div class="nut-chip"><div class="nut-v">${D.members.length}</div><div class="nut-l">Family</div></div>`;
+}
+
+function greetingText(){
+  const h=new Date().getHours();
+  if(h<6) return 'నమస్కారం 🙏 Early bird!';
+  if(h<12) return 'శుభోదయం 🌅 Good morning';
+  if(h<15) return 'మధ్యాహ్నం 🌤️ Good afternoon';
+  if(h<18) return 'నమస్కారం 🌿 Good afternoon';
+  return 'శుభ సాయంత్రం 🌙 Good evening';
+}
+
+function jumpDay(key){
+  switchTab('plan');
+  setTimeout(()=>{calSelKey=key;renderCalGrid();renderPlanDayDetail(key);},60);
+}
+
+// ─── RECIPES ────────────────────────────────────────────────────────────
+
+// Food emoji per recipe — makes cards feel like real dishes
+const RECIPE_EMOJI={
+  b1:'🥞',b2:'🍚',b3:'🌶️',b4:'🫓',b5:'☕',b6:'🍳',b7:'🫓',
+  l1:'🌿',l2:'🍅',l3:'🥦',l4:'🫛',l5:'🥚',l6:'🥬',l7:'🥔',
+  d1:'🥚',d2:'🫓',d3:'🌿',d4:'🫛',d5:'🥔',d6:'🫓',d7:'💫',
+  s1:'🌶️',s2:'🫛',s3:'🍌',s4:'🥨',s5:'🌱',s6:'🥛',s7:'🟤',
+};
+let activeMealTab='All';
+const expandedSections=new Set(); // persists which sections are open
+
+function renderRecipes(){
+  const q=(document.getElementById('recipe-search')||{}).value||'';
+  const query=q.trim().toLowerCase();
+  document.getElementById('recipe-count-lbl').textContent=D.recipes.length+' recipes';
+
+  // Meal type tabs
+  const tabs=['All',...MEAL_TYPES];
+  document.getElementById('meal-tabs').innerHTML=tabs.map(t=>`
+    <div class="mchip${t===activeMealTab?' sel':''}" onclick="setMealTab('${t}')">${t==='All'?'All':MEAL_ICONS[t]+' '+t}</div>
+  `).join('');
+
+  // Filter
+  let filtered=D.recipes.filter(r=>{
+    const matchTab=activeMealTab==='All'||(r.meal||[]).includes(activeMealTab);
+    const matchQ=!query||r.name.toLowerCase().includes(query)||(r.tags||[]).some(t=>t.toLowerCase().includes(query));
+    return matchTab&&matchQ;
+  });
+
+  if(!filtered.length){
+    document.getElementById('recipe-sections').innerHTML='<div class="empty"><div class="empty-icon">🌿</div><div class="empty-text">No recipes found.<br>Try a different search.</div></div>';
+    return;
+  }
+
+  // Collapsible sections by meal type — state persists in expandedSections
+  const groupKeys=activeMealTab==='All'?MEAL_TYPES:[activeMealTab];
+  // When a single tab is selected, auto-open it
+  if(activeMealTab!=='All')expandedSections.add('sec-'+activeMealTab);
+  let html='';
+  groupKeys.forEach(mt=>{
+    const group=filtered.filter(r=>(r.meal||[]).includes(mt));
+    if(!group.length)return;
+    const secId='sec-'+mt;
+    const isOpen=expandedSections.has(secId);
+    const totalKcal=group.reduce((s,r)=>s+(r.kcal||0),0);
+    html+=`<div class="shdr" onclick="toggleRecSec('${secId}')">
+      <div class="shdr-l">
+        <div class="sec-ico" style="background:var(--gbg);border:1px solid var(--gbd);font-size:.92rem">${MEAL_ICONS[mt]||'🍽️'}</div>
+        <div>
+          <div class="stitle">${mt}</div>
+          <div style="font-size:.62rem;color:var(--t3);margin-top:1px">${group.length} recipes · avg ${Math.round(totalKcal/group.length)} kcal</div>
+        </div>
+      </div>
+      <div class="shdr-r">
+        <span class="sec-cnt" style="background:var(--gbg);color:var(--green);border:1px solid var(--gbd)">${group.length}</span>
+        <span class="scaret${isOpen?' open':''}" id="c-${secId}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+    </div>
+    <div class="sbody${isOpen?' open':''}" id="b-${secId}" style="margin-bottom:6px">
+      <div class="rlist" style="margin-bottom:8px">
+        ${group.map(r=>recipeRowHtml(r)).join('')}
+      </div>
+    </div>`;
+  });
+  document.getElementById('recipe-sections').innerHTML=html||'<div class="empty"><div class="empty-icon">🌿</div><div class="empty-text">Nothing here yet.</div></div>';
+}
+
+function toggleRecSec(id){
+  if(expandedSections.has(id))expandedSections.delete(id);
+  else expandedSections.add(id);
+  // re-render just the caret and body without full re-render
+  const b=document.getElementById('b-'+id);
+  const c=document.getElementById('c-'+id);
+  if(b&&c){
+    const open=expandedSections.has(id);
+    b.classList.toggle('open',open);
+    c.classList.toggle('open',open);
+  }
+}
+
+function setMealTab(t){activeMealTab=t;renderRecipes();}
+
+function recipeRowHtml(r){
+  const favMs=D.members.filter(m=>(r.favOf||[]).includes(m.id));
+  const tagHtml=(r.tags||[]).slice(0,2).map(t=>`<span class="tc ${TAG_CLS[t]||'tc-a'}">${t}</span>`).join('');
+  const foodEmoji=RECIPE_EMOJI[r.id]||'🍽️';
+  // Show fav member names prominently if any
+  const favLine=favMs.length
+    ? `<span style="font-size:.68rem;color:var(--amber);font-weight:600">❤️ ${favMs.map(m=>m.name).join(', ')}</span>`
+    : '';
+  return `<div class="ritem" onclick="openRecipeSheet('${r.id}')">
+    <div class="rava" style="background:var(--gbg);border:1px solid var(--gbd);font-size:1.45rem;width:42px;height:42px;border-radius:12px">${foodEmoji}</div>
+    <div class="rbody">
+      <div class="rtitle">${esc(r.name)}</div>
+      ${r.tel?`<div style="font-size:.65rem;color:var(--t3);margin-top:1px">${esc(r.tel)}</div>`:''}
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-top:3px">${tagHtml}</div>
+      ${favLine?`<div style="margin-top:3px">${favLine}</div>`:''}
+    </div>
+    <div class="rright" style="flex-direction:column;align-items:flex-end;gap:4px">
+      ${r.kcal?`<span style="font-size:.7rem;font-weight:700;color:var(--t3)">${r.kcal} kcal</span>`:''}
+      ${r.time?`<span style="font-size:.64rem;color:var(--t3)">⏱ ${r.time}m</span>`:''}
+      <div class="rchev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+  </div>`;
+}
+
+function openRecipeSheet(id){
+  const r=D.recipes.find(x=>x.id===id);if(!r)return;
+  const favMs=D.members.filter(m=>(r.favOf||[]).includes(m.id));
+  const tagHtml=(r.tags||[]).map(t=>`<span class="tc ${TAG_CLS[t]||'tc-a'}">${t}</span>`).join('');
+  const favHtml=favMs.length?`<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:12px">${favMs.map(m=>`<span style="display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:99px;background:${m.color}18;color:${m.color};border:1px solid ${m.color}30">${m.emoji} ${esc(m.name)}'s fave</span>`).join('')}</div>`:'';
+  const ingrHtml=(r.ingredients||[]).map(i=>`<span style="display:inline-flex;font-size:.72rem;background:var(--sf2);border:1px solid var(--bd);border-radius:99px;padding:3px 9px;color:var(--t2)">${esc(i)}</span>`).join('');
+  const stepsHtml=(r.steps||[]).map((s,i)=>`<div style="display:flex;gap:9px;align-items:flex-start;margin-bottom:8px"><div style="width:20px;height:20px;border-radius:50%;background:var(--gbg);border:1px solid var(--gbd);color:var(--green);font-size:.62rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">${i+1}</div><div style="font-size:.82rem;color:var(--t2);line-height:1.55">${esc(s)}</div></div>`).join('');
+  openSheet(r.name,`
+    ${r.tel?`<div style="font-size:.78rem;color:var(--t3);font-weight:500;margin-bottom:8px">${esc(r.tel)}</div>`:''}
+    <div class="tag-chips" style="margin-bottom:8px">${tagHtml}</div>
+    <div style="display:flex;gap:10px;font-size:.72rem;color:var(--t3);margin-bottom:10px">
+      ${r.kcal?`<span>⚡ ${r.kcal} kcal</span>`:''}
+      ${r.time?`<span>⏱ ${r.time} min</span>`:''}
+      ${(r.meal||[]).length?`<span>🍽️ ${r.meal.join(', ')}</span>`:''}
+    </div>
+    ${favHtml}
+    <p style="font-size:.82rem;color:var(--t2);line-height:1.6;margin-bottom:14px">${esc(r.desc||'')}</p>
+    <div class="lbl" style="margin-bottom:8px">INGREDIENTS</div>
+    <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px">${ingrHtml}</div>
+    <div class="lbl" style="margin-bottom:8px">METHOD</div>
+    <div style="margin-bottom:16px">${stepsHtml}</div>
+    <div style="display:flex;gap:8px;padding-top:12px;border-top:1px solid var(--bd2)">
+      <button class="btn btn-p" style="flex:1" onclick="closeSheet();openPlanSheetForRecipe('${r.id}')">+ Add to Plan</button>
+      <button class="btn btn-g" onclick="closeSheet();openAddRecipeSheet('${r.id}')">Edit</button>
+      <button class="btn btn-d" onclick="closeSheet();delRecipe('${r.id}')">Delete</button>
+    </div>`);
+}
+
+function openRecipeDetail(id){
+  switchTab('recipes');
+  setTimeout(()=>{
+    // expand the section that contains this recipe
+    D.recipes.filter(r=>r.id===id).forEach(r=>{
+      (r.meal||[]).forEach(mt=>{expandedSections.add('sec-'+mt);});
+    });
+    renderRecipes();
+    setTimeout(()=>openRecipeSheet(id),80);
+  },60);
+}
+
+function delRecipe(id){
+  if(!confirm('Delete this recipe?'))return;
+  D.recipes=D.recipes.filter(r=>r.id!==id);
+  Object.keys(D.plan).forEach(dk2=>Object.keys(D.plan[dk2]).forEach(mt=>{
+    if(D.plan[dk2][mt]&&D.plan[dk2][mt].recipeId===id)delete D.plan[dk2][mt];
+  }));
+  save();renderRecipes();toast('Recipe deleted');
+}
+
+// ─── ADD RECIPE SHEET ─────────────────────────────────────────────────────
+function openAddRecipeSheet(editId){
+  const r=editId?D.recipes.find(x=>x.id===editId):null;
+  const favChips=D.members.map(m=>`<div class="mchip${r&&(r.favOf||[]).includes(m.id)?' sel':''}" onclick="this.classList.toggle('sel')" data-val="${m.id}">${m.emoji} ${m.name}</div>`).join('');
+  openSheet(r?'Edit Recipe':'New Recipe',`
+    <div class="fg"><label class="fl">Recipe Name *</label>
+    <input class="fi" id="rs-name" placeholder="e.g. Gongura Pappu" value="${esc(r?r.name:'')}"/></div>
+    <div class="fg"><label class="fl">Description</label>
+    <textarea class="fi" id="rs-desc">${r?esc(r.desc||''):''}</textarea></div>
+    <label class="fl" style="margin-bottom:5px">Meal Type</label>
+    <div class="mchip-row" id="rs-meal">${MEAL_TYPES.map(m=>`<div class="mchip${r&&(r.meal||[]).includes(m)?' sel':''}" onclick="this.classList.toggle('sel')">${m}</div>`).join('')}</div>
+    <label class="fl" style="margin-bottom:5px">Tags</label>
+    <div class="mchip-row" id="rs-tags">${ALL_TAGS.map(t=>`<div class="mchip${r&&(r.tags||[]).includes(t)?' sel':''}" onclick="this.classList.toggle('sel')">${t}</div>`).join('')}</div>
+    <label class="fl" style="margin-bottom:5px">Favourite Of</label>
+    <div class="mchip-row" id="rs-fav">${favChips}</div>
+    <div class="frow2" style="margin-bottom:0">
+      <div class="fg"><label class="fl">Calories (kcal)</label><input class="fi" id="rs-kcal" type="number" placeholder="200" value="${r?r.kcal||'':''}"/></div>
+      <div class="fg"><label class="fl">Cook Time (min)</label><input class="fi" id="rs-time" type="number" placeholder="30" value="${r?r.time||'':''}"/></div>
+    </div>
+    <div class="fg"><label class="fl">Ingredients (one per line)</label>
+    <textarea class="fi" id="rs-ingr" style="min-height:88px">${r?(r.ingredients||[]).join('\n'):''}</textarea></div>
+    <div class="fg"><label class="fl">Steps (one per line)</label>
+    <textarea class="fi" id="rs-steps" style="min-height:88px">${r?(r.steps||[]).join('\n'):''}</textarea></div>
+    <div class="factions">
+      <button class="btn btn-g" onclick="closeSheet()">Cancel</button>
+      <button class="btn btn-p" onclick="saveRecipe('${editId||''}')">Save</button>
+    </div>`);
+}
+
+function saveRecipe(editId){
+  const name=document.getElementById('rs-name').value.trim();
+  if(!name){toast('Name required');return;}
+  const meal=[...document.querySelectorAll('#rs-meal .mchip.sel')].map(e=>e.textContent.trim());
+  const tags=[...document.querySelectorAll('#rs-tags .mchip.sel')].map(e=>e.textContent.trim());
+  const favOf=[...document.querySelectorAll('#rs-fav .mchip.sel')].map(e=>e.dataset.val);
+  const ingr=document.getElementById('rs-ingr').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const steps=document.getElementById('rs-steps').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const r={id:editId||uid(),name,desc:document.getElementById('rs-desc').value.trim(),meal,tags,favOf,
+    kcal:parseInt(document.getElementById('rs-kcal').value)||0,
+    time:parseInt(document.getElementById('rs-time').value)||0,ingredients:ingr,steps};
+  if(editId){const i=D.recipes.findIndex(x=>x.id===editId);if(i>=0)D.recipes[i]=r;}
+  else D.recipes.unshift(r);
+  save();closeSheet();renderRecipes();toast(editId?'Updated ✓':'Recipe added ✓');
+}
+
+// ─── PLAN (CALENDAR) ─────────────────────────────────────────────────────
+let calYear=new Date().getFullYear();
+let calMonth=new Date().getMonth();
+let calSelKey=todayKey();
+
+function renderPlan(){
+  renderCalHeader();
+  renderCalGrid();
+  renderPlanDayDetail(calSelKey);
+}
+
+function renderCalHeader(){
+  const lbl=new Date(calYear,calMonth,1).toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+  document.getElementById('cal-month-lbl').textContent=lbl;
+  document.getElementById('cal-hdr-lbl').textContent=lbl;
+}
+
+function renderCalGrid(){
+  const DOWS=['S','M','T','W','T','F','S'];
+  document.getElementById('cal-dows').innerHTML=DOWS.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+  const firstDay=new Date(calYear,calMonth,1).getDay();
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const tk=todayKey();
+  let html='';
+  for(let i=0;i<firstDay;i++)html+=`<div class="cal-day empty"></div>`;
+  for(let d=1;d<=daysInMonth;d++){
+    const date=new Date(calYear,calMonth,d);
+    const k=dk(date);
+    const isToday=k===tk;
+    const isSel=k===calSelKey;
+    const hasPlan=Object.keys(D.plan[k]||{}).length>0;
+    html+=`<div class="cal-day${isToday?' today':''}${isSel?' selected':''}${hasPlan?' has-plan':''}" onclick="selectCalDay('${k}')">${d}</div>`;
+  }
+  document.getElementById('cal-grid').innerHTML=html;
+}
+
+function changeMonth(dir){
+  calMonth+=dir;
+  if(calMonth>11){calMonth=0;calYear++;}
+  if(calMonth<0){calMonth=11;calYear--;}
+  renderCalHeader();renderCalGrid();
+  document.getElementById('plan-sel-lbl').textContent='TAP A DATE TO SEE ITS PLAN';
+  document.getElementById('plan-day-detail').innerHTML='';
+}
+
+function selectCalDay(key){
+  calSelKey=key;
+  renderCalGrid();
+  renderPlanDayDetail(key);
+}
+
+function renderPlanDayDetail(key){
+  const d=new Date(key+'T00:00:00');
+  const plan=D.plan[key]||{};
+  const isToday=key===todayKey();
+  const dayLabel=d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('plan-sel-lbl').textContent=isToday?'TODAY\'S PLAN':'PLAN FOR SELECTED DAY';
+
+  let slots='';
+  MEAL_TYPES.forEach(type=>{
+    const recipe=plan[type]?D.recipes.find(r=>r.id===plan[type].recipeId):null;
+    if(recipe){
+      const favMs=D.members.filter(m=>(recipe.favOf||[]).includes(m.id));
+      slots+=`<div class="plan-slot">
+        <div class="plan-slot-lbl">${MEAL_ICONS[type]} ${type}</div>
+        <div class="plan-filled">
+          <div style="flex:1;min-width:0">
+            <div class="plan-filled-name">${esc(recipe.name)}</div>
+            <div class="plan-filled-sub">${recipe.kcal?recipe.kcal+' kcal · ':''} ${(recipe.tags||[]).slice(0,2).join(', ')}${favMs.length?' · '+favMs.map(m=>m.emoji+m.name).join(', '):''}</div>
+          </div>
+          <button class="rib del" onclick="removePlan('${key}','${type}')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+      </div>`;
+    } else {
+      slots+=`<div class="plan-slot">
+        <div class="plan-slot-lbl">${MEAL_ICONS[type]} ${type}</div>
+        <div class="plan-empty" onclick="openPlanDaySheet('${key}','${type}')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>Add ${type}</span>
+        </div>
+      </div>`;
+    }
+  });
+
+  document.getElementById('plan-day-detail').innerHTML=`
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rx);padding:14px 14px 6px;margin-bottom:4px">
+      <div class="plan-day-title">${dayLabel}${isToday?' 🟢':''}</div>
+      <div class="plan-day-sub">Tap a meal slot to change it</div>
+      ${slots}
+    </div>`;
+}
+
+function removePlan(key,type){
+  if(D.plan[key])delete D.plan[key][type];
+  save();renderCalGrid();renderPlanDayDetail(key);if(curTab==='home')renderHome();toast('Removed');
+}
+
+// ─── PLAN SHEET ───────────────────────────────────────────────────────────
+let _pd=null,_pm=null;
+
+function openPlanDaySheet(dayKey,mealType){
+  _pd=dayKey;_pm=mealType;
+  openSheet('Choose Recipe',planPickHtml());
+}
+function openPlanSheetForRecipe(recipeId){
+  _pd=null;_pm=null;
+  openSheet('Add to Plan',planPickHtml(recipeId));
+}
+
+function planPickHtml(){
+  const wd=weekDates();const tk=todayKey();
+  const dayChips=wd.map(d=>{
+    const k=dk(d);return `<div class="mchip${k===_pd?' sel':''}" data-day="${k}" onclick="document.querySelectorAll('#pp-days .mchip').forEach(e=>e.classList.remove('sel'));this.classList.add('sel');_pd=this.dataset.day;">${k===tk?'Today':DAYS[d.getDay()]+' '+d.getDate()}</div>`;
+  }).join('');
+  const mealChips=MEAL_TYPES.map(m=>`<div class="mchip${m===_pm?' sel':''}" data-meal="${m}" onclick="document.querySelectorAll('#pp-meals .mchip').forEach(e=>e.classList.remove('sel'));this.classList.add('sel');_pm=this.dataset.meal;">${MEAL_ICONS[m]} ${m}</div>`).join('');
+  const recipeRows=D.recipes.map(r=>{
+    const favMs=D.members.filter(m=>(r.favOf||[]).includes(m.id));
+    return `<div class="rpick" onclick="assignPlan('${r.id}')">
+      <div class="rbody">
+        <div class="rpick-name">${esc(r.name)}</div>
+        <div class="rpick-sub">${(r.tags||[]).slice(0,3).join(', ')}${r.kcal?' · '+r.kcal+'kcal':''}${favMs.length?' · '+favMs.map(m=>m.emoji+m.name).join(' '):''}</div>
+      </div>
+      <div class="rchev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>`;
+  }).join('');
+  return `<label class="fl" style="margin-bottom:5px">DAY</label>
+    <div class="mchip-row" id="pp-days" style="margin-bottom:12px">${dayChips}</div>
+    <label class="fl" style="margin-bottom:5px">MEAL SLOT</label>
+    <div class="mchip-row" id="pp-meals" style="margin-bottom:12px">${mealChips}</div>
+    <label class="fl" style="margin-bottom:8px">SELECT RECIPE</label>
+    <div>${recipeRows}</div>`;
+}
+
+function assignPlan(recipeId){
+  if(!_pd){toast('Select a day');return;}
+  if(!_pm){toast('Select a meal slot');return;}
+  if(!D.plan[_pd])D.plan[_pd]={};
+  D.plan[_pd][_pm]={recipeId};
+  save();closeSheet();
+  if(curTab==='plan'){renderCalGrid();renderPlanDayDetail(_pd);}
+  if(curTab==='home')renderHome();
+  toast('Added to plan ✓');
+}
+
+// ─── SETTINGS ────────────────────────────────────────────────────────────
+function renderSettings(){
+  const t=D.settings.theme||'dark';
+  const fs=D.settings.fontSize||16;
+  const memberRows=D.members.map((m,i)=>`
+    <div class="prow">
+      <div class="mav" style="background:${m.color}18;border:2px solid ${m.color}30;color:${m.color}">${m.emoji}</div>
+      <div class="pinfo">
+        <div class="ptitle">${esc(m.name)} <span style="font-size:.68rem;color:var(--t3);font-weight:400">${m.role||''}</span></div>
+        <div class="psub">❤️ ${(m.favs||[]).slice(0,2).join(', ')||'No favourites yet'}</div>
+      </div>
+      <button class="rib" onclick="editMemberSheet(${i})" style="width:auto;padding:0 10px;font-size:.72rem;font-weight:700;color:var(--blue);background:var(--blue-bg);border-color:var(--blue-bd)">Edit</button>
+    </div>`).join('<div style="height:1px;background:var(--bd2);margin:0 14px"></div>');
+
+  document.getElementById('settings-body').innerHTML=`
+    <div class="plbl">Family Members</div>
+    <div class="pcard" style="margin-bottom:18px">${memberRows}</div>
+
+    <div class="plbl">Appearance</div>
+    <div class="pshdr" onclick="toggleSec('appear')">
+      <div class="pshdr-l">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <span class="pshdr-title">Theme &amp; Text Size</span>
+      </div>
+      <span class="scaret" id="c-appear"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </div>
+    <div class="sbody" id="b-appear" style="margin-bottom:14px">
+      <div class="pcard">
+        <div class="prow" style="flex-direction:column;align-items:flex-start;gap:10px">
+          <div style="font-size:.84rem;font-weight:600;color:var(--t1)">Theme</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;width:100%">
+            <div onclick="setTheme('dark')" style="padding:10px 8px;border-radius:var(--rl);border:2px solid ${t==='dark'?'var(--green)':'var(--bd)'};background:${t==='dark'?'var(--gbg)':'var(--sf2)'};cursor:pointer;text-align:center"><div style="width:100%;height:22px;border-radius:6px;background:#0d0d10;border:1px solid #3a3a50;margin-bottom:6px"></div><div style="font-size:.72rem;font-weight:700;color:${t==='dark'?'var(--green)':'var(--t3)'}">Dark</div></div>
+            <div onclick="setTheme('soft-dark')" style="padding:10px 8px;border-radius:var(--rl);border:2px solid ${t==='soft-dark'?'var(--green)':'var(--bd)'};background:${t==='soft-dark'?'var(--gbg)':'var(--sf2)'};cursor:pointer;text-align:center"><div style="width:100%;height:22px;border-radius:6px;background:#1a1a1f;border:1px solid #4c4c5c;margin-bottom:6px"></div><div style="font-size:.72rem;font-weight:700;color:${t==='soft-dark'?'var(--green)':'var(--t3)'}">Soft</div></div>
+            <div onclick="setTheme('light')" style="padding:10px 8px;border-radius:var(--rl);border:2px solid ${t==='light'?'var(--green)':'var(--bd)'};background:${t==='light'?'var(--gbg)':'var(--sf2)'};cursor:pointer;text-align:center"><div style="width:100%;height:22px;border-radius:6px;background:#f2f2f7;border:1px solid #c8c8d8;margin-bottom:6px"></div><div style="font-size:.72rem;font-weight:700;color:${t==='light'?'var(--green)':'var(--t3)'}">Light</div></div>
+          </div>
+        </div>
+        <div class="prow" style="flex-direction:column;align-items:flex-start;gap:10px;border-top:1px solid var(--bd2)">
+          <div style="font-size:.84rem;font-weight:600;color:var(--t1)">Text Size</div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:100%">
+            ${[['XS',13],['S',14],['M',16],['L',18],['XL',20]].map(([lbl,sz])=>`<button onclick="applyFontSize(${sz})" data-sz="${sz}" class="fsbtn${sz===fs?' on':''}">${lbl}</button>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="plbl">Data</div>
+    <div class="pcard" style="margin-bottom:18px">
+      <div class="prow ptap" onclick="exportData()">
+        <div class="pico" style="background:var(--blue-bg);border:1px solid var(--blue-bd)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+        <div class="pinfo"><div class="ptitle">Export Backup</div><div class="psub">Download recipes & plan as JSON</div></div>
+        <div class="rchev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <div style="height:1px;background:var(--bd2)"></div>
+      <div class="prow ptap" onclick="document.getElementById('imp').click()">
+        <div class="pico" style="background:var(--abg);border:1px solid var(--abd)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+        <div class="pinfo"><div class="ptitle">Import Backup</div><div class="psub">Restore from JSON file</div></div>
+        <div class="rchev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(this)"/>
+      <div style="height:1px;background:var(--bd2)"></div>
+      <div class="prow ptap" onclick="if(confirm('Reset all data? Cannot be undone.')){localStorage.removeItem('hkv3');location.reload();}">
+        <div class="pico" style="background:var(--rbg);border:1px solid var(--rbd)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></div>
+        <div class="pinfo"><div class="ptitle" style="color:var(--red)">Reset All Data</div><div class="psub">Cannot be undone</div></div>
+        <div class="rchev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+    </div>
+
+    <div class="plbl">About</div>
+    <div class="pcard" style="margin-bottom:18px">
+      <div class="prow">
+        <div class="pico" style="font-size:1rem">🍃</div>
+        <div class="pinfo"><div class="ptitle">Healthy Kitchen</div><div class="psub">South Indian nutrition planner · v3.0</div></div>
+      </div>
+    </div>`;
+}
+
+function setTheme(t){applyTheme(t);renderSettings();}
+
+function editMemberSheet(idx){
+  const m=D.members[idx];
+  const favChips=D.recipes.map(r=>`<div class="mchip${(m.favs||[]).includes(r.name)?' sel':''}" onclick="this.classList.toggle('sel')">${esc(r.name)}</div>`).join('');
+  openSheet('Edit Member',`
+    <div class="fg"><label class="fl">Name</label><input class="fi" id="em-name" value="${esc(m.name)}"/></div>
+    <div class="fg"><label class="fl">Role (Dad / Mom / Son…)</label><input class="fi" id="em-role" value="${esc(m.role||'')}"/></div>
+    <div class="fg"><label class="fl">Emoji</label><input class="fi" id="em-emoji" value="${esc(m.emoji||'👤')}" maxlength="2"/></div>
+    <label class="fl" style="margin-bottom:5px">Favourite Dishes</label>
+    <div class="mchip-row" id="em-favs" style="margin-bottom:4px">${favChips}</div>
+    <div class="factions">
+      <button class="btn btn-g" onclick="closeSheet()">Cancel</button>
+      <button class="btn btn-p" onclick="saveMember(${idx})">Save</button>
+    </div>`);
+}
+
+function saveMember(idx){
+  const name=document.getElementById('em-name').value.trim();if(!name)return;
+  const favs=[...document.querySelectorAll('#em-favs .mchip.sel')].map(e=>e.textContent.trim());
+  D.members[idx]={...D.members[idx],name,role:document.getElementById('em-role').value.trim(),
+    emoji:document.getElementById('em-emoji').value.trim()||'👤',favs};
+  save();closeSheet();renderSettings();toast('Saved ✓');
+}
+
+function exportData(){
+  const b=new Blob([JSON.stringify(D,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='healthy-kitchen.json';a.click();toast('Exported ✓');
+}
+function importData(inp){
+  const f=inp.files[0];if(!f)return;
+  const r=new FileReader();r.onload=e=>{try{D=JSON.parse(e.target.result);save();location.reload();}catch(x){toast('Invalid file');}};r.readAsText(f);
+}
+
+// ─── BOOT ────────────────────────────────────────────────────────────────
+switchTab('home');
+</script>
+</body>
+</html>
