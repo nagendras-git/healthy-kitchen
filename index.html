@@ -191,7 +191,7 @@ textarea.fi{resize:vertical;min-height:68px;line-height:1.5;}
 .meal-name{font-size:.88rem;font-weight:700;color:var(--t1);}
 .meal-sub{font-size:.68rem;color:var(--t3);margin-top:1px;display:flex;align-items:center;gap:5px;}
 .meal-fav{display:inline-flex;align-items:center;gap:3px;font-size:.64rem;font-weight:700;padding:1px 6px;border-radius:99px;}
-.meal-kcal{font-size:.72rem;font-weight:700;color:var(--t3);flex-shrink:0;font-variant-numeric:tabular-nums;}
+/* meal-kcal removed */
 .meal-empty-row{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--bd2);cursor:pointer;opacity:.55;transition:opacity 120ms;}
 .meal-empty-row:last-child{border-bottom:none}
 .meal-empty-row:active{opacity:.35}
@@ -276,7 +276,7 @@ textarea.fi{resize:vertical;min-height:68px;line-height:1.5;}
   <div class="hdr"><div class="hdr-in">
     <div class="hdr-l">
       <div>
-        <div class="hdr-gr" id="hdr-gr">Today's plan</div>
+        <div class="hdr-gr">This week's meals</div>
         <div class="hdr-nm">🍃 Healthy Kitchen</div>
       </div>
     </div>
@@ -285,8 +285,7 @@ textarea.fi{resize:vertical;min-height:68px;line-height:1.5;}
     </div>
   </div></div>
   <div class="wrap" style="padding-top:18px;padding-bottom:24px;">
-    <div id="today-hero"></div>
-    <div class="nut-row" id="nut-row"></div>
+    <div id="week-plan"></div>
   </div>
 </div>
 
@@ -314,28 +313,7 @@ textarea.fi{resize:vertical;min-height:68px;line-height:1.5;}
   </div>
 </div>
 
-<!-- ══ PLAN (CALENDAR) ══ -->
-<div id="pg-plan" class="pg">
-  <div class="hdr"><div class="hdr-in">
-    <div class="hdr-l"><div>
-      <div class="hdr-gr">Monthly view</div>
-      <div class="hdr-nm" id="cal-hdr-lbl">Plan</div>
-    </div></div>
-  </div></div>
-  <div class="wrap" style="padding-top:20px;padding-bottom:24px;">
-    <div class="cal-nav">
-      <div class="cal-nav-btn" onclick="changeMonth(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
-      <div class="cal-month-lbl" id="cal-month-lbl"></div>
-      <div class="cal-nav-btn" onclick="changeMonth(1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
-    </div>
-    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rx);padding:14px;margin-bottom:14px;">
-      <div class="cal-dow-row" id="cal-dows"></div>
-      <div class="cal-grid" id="cal-grid"></div>
-    </div>
-    <div class="lbl" style="margin-bottom:8px" id="plan-sel-lbl">TAP A DATE TO SEE ITS PLAN</div>
-    <div id="plan-day-detail"></div>
-  </div>
-</div>
+<!-- Plan tab removed — week view is now inside Home -->
 
 <!-- ══ SETTINGS ══ -->
 <div id="pg-settings" class="pg">
@@ -358,10 +336,7 @@ textarea.fi{resize:vertical;min-height:68px;line-height:1.5;}
     <div class="tico"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
     <span class="tlabel">Recipes</span>
   </button>
-  <button class="titem" id="tab-plan" onclick="switchTab('plan')">
-    <div class="tico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-    <span class="tlabel">Plan</span>
-  </button>
+
   <button class="titem" id="tab-settings" onclick="switchTab('settings')">
     <div class="tico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
     <span class="tlabel">Settings</span>
@@ -554,26 +529,17 @@ const SEED_RECIPES=[
   // 🌙 DINNER — 7 unique dinners (రాత్రి భోజనం — no heavy rice)
   // ══════════════════════════════════════════════════════
 
-  {id:'d1',name:'Chapati + Kodiguddu Pulusu',tel:'చపాతి + కోడిగుడ్డు పులుసు',
-   tags:['Non-Veg','High Protein','Andhra'],meal:['Dinner'],kcal:360,time:35,favOf:['m1'],
-   desc:'Andhra egg pulusu — tangy, spicy, tamarind-based egg curry. Served with 2 soft chapatis. High protein, deeply flavourful.',
-   ingredients:['Boiled eggs 4 (whole, peeled)','Onion 2 large (sliced)','Tomato 2','Tamarind lemon-sized ball','Red chilli powder 1.5 tsp','Turmeric ½ tsp','Coriander powder 1 tsp','Garam masala ¼ tsp','Mustard seeds ½ tsp','Curry leaves','Oil 3 tbsp','Coriander leaves','Salt',
-     '2 chapatis per person'],
-   steps:['Soak tamarind in 1 cup warm water. Extract thick pulp.',
-     'Fry whole boiled eggs in 1 tsp oil till light golden all over. Remove and set aside.',
-     'In same pan: heat remaining oil. Add mustard, curry leaves. Add onion — fry till deep golden (10 min).',
-     'Add tomatoes, cook till mushy. Add all masala powders, cook till oil separates.',
-     'Add tamarind pulp + 1 cup water. Bring to boil. Add fried eggs. Simmer 10 min till gravy thickens. Garnish coriander. Serve with chapati.']},
+  {id:'d1',name:'Chapati + Capsicum Tomato Kura',tel:'చపాతి + క్యాప్సికమ్ టొమేటో కూర',
+   tags:['Vegetable','Andhra','Colourful'],meal:['Dinner'],kcal:220,time:20,favOf:[],
+   desc:'Colourful capsicum and tomato curry with chapati.',
+   ingredients:['Capsicum 2 diced','Tomato 2','Onion 1','Green chilli 2','Red chilli powder 1 tsp','Turmeric ¼ tsp','Mustard seeds ½ tsp','Curry leaves','Oil 2 tbsp','Salt'],
+   steps:['Temper mustard, curry leaves. Fry onion golden.','Add tomatoes, masala. Cook soft.','Add capsicum, stir-fry 8 min. Serve with chapati.']},
 
-  {id:'d2',name:'Chapati + Pappu Curry',tel:'చపాతి + పప్పు కూర',
-   tags:['Dal','Vegetarian','Light Dinner'],meal:['Dinner'],kcal:280,time:25,favOf:[],
-   desc:'Soft chapatis with a slightly watery Andhra pappu. Light, nutritious dinner — easy on digestion. Good for all family members.',
-   ingredients:['Toor dal ½ cup','Tomato 2','Green chilli 2','Turmeric ¼ tsp','Mustard seeds ½ tsp','Cumin ½ tsp','Dried red chilli 2','Curry leaves','Garlic 3 cloves','Oil 1.5 tbsp','Salt',
-     'Chapati 2 per person (whole wheat)'],
-   steps:['Pressure cook toor dal with tomatoes, green chilli, turmeric (3 whistles). Mash well.',
-     'Add salt; keep slightly runny (thinner than lunch pappu) to dip chapati.',
-     'Temper mustard, cumin, garlic, red chilli, curry leaves in hot oil. Pour over pappu.',
-     'Make soft chapatis (see Chapati recipe). Serve warm pappu with hot chapatis.']},
+  {id:'d2',name:'Chapati + Aloo Matar Kura',tel:'చపాతి + ఆలూ మటర్ కూర',
+   tags:['Vegetable','Comfort','Andhra'],meal:['Dinner'],kcal:250,time:22,favOf:['m3'],
+   desc:'Potato and green peas curry with chapati.',
+   ingredients:['Potato 2 boiled cubed','Green peas ½ cup','Onion 1','Tomato 2','Red chilli powder 1 tsp','Turmeric ¼ tsp','Mustard seeds ½ tsp','Curry leaves','Oil 2 tbsp','Salt'],
+   steps:['Temper mustard, curry leaves. Fry onion golden.','Add tomatoes, masala, cook till oil separates.','Add potato and peas. Simmer 8 min. Serve with chapati.']},
 
   {id:'d3',name:'Chapati + Methi Kura',tel:'చపాతి + మెంతి కూర',
    tags:['Leaf Curry','High Fibre','Healthy'],meal:['Dinner'],kcal:230,time:22,favOf:['m2'],
@@ -694,8 +660,8 @@ const SEED_RECIPES=[
 // ═══════ 7-DAY PLAN — every day unique, no repeats ═══════
 // Sun=0 Mon=1 Tue=2 Wed=3 Thu=4 Fri=5 Sat=6
 const WEEKLY_TPL=[
-  {Breakfast:'b1',Lunch:'l1',Dinner:'d1',Snack:'s1'},  // Sun:  Millets Dosa  | Gongura Rice+Pappu | Chapati+Kodiguddu Pulusu | Challa Mirapakayalu
-  {Breakfast:'b2',Lunch:'l2',Dinner:'d2',Snack:'s2'},  // Mon:  Idli+Palli    | Tomato Rice+Perugu | Chapati+Pappu Curry      | Pesarattu+Allam Chutney
+  {Breakfast:'b1',Lunch:'l1',Dinner:'d1',Snack:'s1'},  // Sun:  Millets Dosa  | Gongura Rice+Pappu  | Chapati+Capsicum Tomato  | Challa Mirapakayalu
+  {Breakfast:'b2',Lunch:'l2',Dinner:'d2',Snack:'s2'},  // Mon:  Idli+Palli    | Tomato Rice+Perugu  | Chapati+Aloo Matar Kura  | Pesarattu+Allam Chutney
   {Breakfast:'b3',Lunch:'l3',Dinner:'d3',Snack:'s3'},  // Tue:  Pulihora      | Mulakaya Kura+Rice | Chapati+Methi Kura       | Banana+Jaggery
   {Breakfast:'b4',Lunch:'l4',Dinner:'d4',Snack:'s4'},  // Wed:  Majjiga Attu  | Chikkudu Kura+Rice | Chapati+Chikkudu Kura    | Murukku+Tea
   {Breakfast:'b5',Lunch:'l5',Dinner:'d5',Snack:'s5'},  // Thu:  Upma          | Beerakaya Guddu+R  | Chapati+Aloo Masala      | Sprouts Sundal
@@ -707,8 +673,8 @@ const WEEKLY_TPL=[
 let D={recipes:[],plan:{},members:[],settings:{theme:'dark',fontSize:16,servings:3}};
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
 function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
-function save(){localStorage.setItem('hkv4',JSON.stringify({...D,_v:4}));}
-function load(){try{const r=JSON.parse(localStorage.getItem('hkv4'));if(r&&r._v===4)D={...D,...r};}catch(e){}}
+function save(){localStorage.setItem('hkv5',JSON.stringify({...D,_v:5}));}
+function load(){try{const r=JSON.parse(localStorage.getItem('hkv5'));if(r&&r._v===5)D={...D,...r};}catch(e){}}
 load();
 if(!D.recipes||!D.recipes.length)D.recipes=SEED_RECIPES.map(r=>({...r}));
 if(!D.members||!D.members.length)D.members=DEFAULT_MEMBERS.map(m=>({...m}));
@@ -725,6 +691,7 @@ save();
 
 // ─── DATE HELPERS ────────────────────────────────────────────────────────
 function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function dateKey(d){return dk(d);}
 function todayKey(){return dk(new Date());}
 function weekDates(){
   const t=new Date(),dow=t.getDay();
@@ -777,101 +744,103 @@ function switchTab(tab){
   document.getElementById('fab').classList.toggle('hide',tab!=='recipes');
   if(tab==='home')renderHome();
   if(tab==='recipes')renderRecipes();
-  if(tab==='plan')renderPlan();
   if(tab==='settings')renderSettings();
 }
 function openAddSheet(){openAddRecipeSheet();}
 
 // ─── HOME ────────────────────────────────────────────────────────────────
+// Track which day cards are expanded (today auto-open)
+const expandedDays=new Set();
+
 function renderHome(){
   const today=new Date();
   const tk=todayKey();
-  document.getElementById('hdr-date-lbl').textContent=today.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
-  document.getElementById('hdr-gr').textContent=greetingText();
+  const dow=today.getDay();
+  document.getElementById('hdr-date-lbl').textContent=
+    today.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
 
-  // Today hero
-  const plan=D.plan[tk]||{};
-  let totalKcal=0,proteinMeals=0;
-  const mealRows=MEAL_TYPES.map(type=>{
-    const meal=plan[type];
-    const recipe=meal?D.recipes.find(r=>r.id===meal.recipeId):null;
-    if(recipe){
-      totalKcal+=(recipe.kcal||0);
-      if((recipe.tags||[]).includes('High Protein'))proteinMeals++;
-      const favMs=D.members.filter(m=>(recipe.favOf||[]).includes(m.id));
-      const foodEmoji=RECIPE_EMOJI[recipe.id]||'🍽️';
-      const favLine=favMs.length
-        ? `<span style="font-size:.66rem;color:var(--amber);font-weight:600">❤️ ${favMs.map(m=>m.name).join(' & ')}'s fave</span>`
-        : `<span style="font-size:.66rem;color:var(--t3)">${(recipe.tags||[]).slice(0,2).join(' · ')}</span>`;
-      return `<div class="meal-row" onclick="openRecipeDetail('${recipe.id}')">
-        <div style="width:38px;height:38px;border-radius:11px;background:var(--gbg);border:1px solid var(--gbd);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">${foodEmoji}</div>
-        <div class="meal-body">
-          <div class="meal-type-lbl">${MEAL_ICONS[type]} ${type}</div>
-          <div class="meal-name">${esc(recipe.name)}</div>
-          ${recipe.tel?`<div style="font-size:.64rem;color:var(--t3)">${esc(recipe.tel)}</div>`:''}
-          <div class="meal-sub">${favLine}</div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0">
-          <div class="meal-kcal">${recipe.kcal?recipe.kcal+' kcal':''}</div>
-          ${recipe.time?`<div style="font-size:.62rem;color:var(--t3)">⏱ ${recipe.time}m</div>`:''}
+  // Auto-expand today on first render
+  if(!expandedDays.has(tk))expandedDays.add(tk);
+
+  // ── Build day slot HTML (shared between today hero and week cards) ──
+  function dayMealSlots(k,plan){
+    return MEAL_TYPES.map(type=>{
+      const recipe=(plan[type])?D.recipes.find(r=>r.id===plan[type].recipeId):null;
+      const foodEmoji=recipe?(RECIPE_EMOJI[recipe.id]||'🍽️'):null;
+      const favMs=recipe?D.members.filter(m=>(recipe.favOf||[]).includes(m.id)):[];
+      if(recipe){
+        return `<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd2);" onclick="openRecipeDetail('${recipe.id}')">
+          <div style="width:32px;height:32px;border-radius:9px;background:var(--gbg);border:1px solid var(--gbd);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0">${foodEmoji}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:.6rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:1px">${MEAL_ICONS[type]} ${type}</div>
+            <div style="font-size:.88rem;font-weight:700;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(recipe.name)}</div>
+            ${favMs.length?`<div style="font-size:.64rem;color:var(--amber);margin-top:1px">❤️ ${favMs.map(m=>m.name).join(' & ')}'s fave</div>`:''}
+          </div>
           <div class="rchev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </div>`;
+      }
+      return `<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd2);opacity:.5;cursor:pointer" onclick="openPlanDaySheet('${k}','${type}')">
+        <div style="width:32px;height:32px;border-radius:9px;background:var(--sf2);border:1px dashed var(--bd);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">${MEAL_ICONS[type]}</div>
+        <div style="flex:1">
+          <div style="font-size:.6rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:1px">${type}</div>
+          <div style="font-size:.86rem;color:var(--t3)">Not planned — tap to add</div>
         </div>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </div>`;
-    }
-    return `<div class="meal-empty-row" onclick="openPlanDaySheet('${tk}','${type}')">
-      <div class="meal-ico">${MEAL_ICONS[type]}</div>
-      <div class="meal-body">
-        <div class="meal-type-lbl">${type}</div>
-        <div class="meal-name" style="color:var(--t3);font-weight:500">Tap to plan ${type.toLowerCase()}</div>
+    }).join('');
+  }
+
+  // ── 7-day collapsible list ────────────────────────────────────────────
+  const weekHtml=Array.from({length:7},(_,i)=>{
+    const d=new Date(today);d.setDate(today.getDate()-dow+i);
+    const k=dateKey(d);
+    const dayPlan=D.plan[k]||{};
+    const isToday=k===tk;
+    const isOpen=expandedDays.has(k);
+    const dayLabel=DAYS[d.getDay()]+' '+d.getDate();
+    // summary: show emoji previews when collapsed
+    const previewEmojis=MEAL_TYPES.map(type=>{
+      const r=dayPlan[type]?D.recipes.find(x=>x.id===dayPlan[type].recipeId):null;
+      return r?(RECIPE_EMOJI[r.id]||'🍽️'):null;
+    }).filter(Boolean).slice(0,4).join(' ');
+
+    return `<div style="margin-bottom:7px;">
+      <!-- Day header — tappable to expand/collapse -->
+      <div onclick="toggleDay('${k}')" style="display:flex;align-items:center;justify-content:space-between;
+        padding:11px 14px;border-radius:${isOpen?'var(--rl) var(--rl) 0 0':'var(--rl)'};
+        background:${isToday?'var(--gbg)':'var(--sf)'};
+        border:1px solid ${isToday?'var(--gbd)':'var(--bd)'};
+        ${isOpen?'border-bottom:none;':''}
+        cursor:pointer;user-select:none;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="font-size:.9rem;font-weight:800;color:${isToday?'var(--green)':'var(--t1)'}">${dayLabel}</div>
+          ${isToday?`<span style="font-size:.6rem;padding:2px 7px;background:var(--green);color:#fff;border-radius:99px;font-weight:700">Today</span>`:''}
+          ${!isOpen?`<span style="font-size:.82rem;letter-spacing:1px">${previewEmojis}</span>`:''}
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:.68rem;color:var(--green);font-weight:600" onclick="event.stopPropagation();openPlanDaySheet('${k}',null)">Edit</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2.2" stroke-linecap="round" style="transition:transform .22s;transform:rotate(${isOpen?'180':'0'}deg)"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
       </div>
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <!-- Expanded meal slots -->
+      ${isOpen?`<div style="background:var(--sf);border:1px solid ${isToday?'var(--gbd)':'var(--bd)'};border-top:none;border-radius:0 0 var(--rl) var(--rl);padding:0 14px;">
+        ${dayMealSlots(k,dayPlan)}
+      </div>`:''}
     </div>`;
   }).join('');
 
-  // Daily nutrition tip rotation
-  const TIPS=[
-  'నీళ్ళు ఎక్కువ తాగండి — రోజూ 8 గ్లాసులు 💧',
-  'ఈ రోజు భోజనం మీ కుటుంబానికి ప్రేమతో వండారు 🌿',
-  'జొన్న / రాగి అట్టు వండండి — బలమైన ఆరోగ్యం 🌾',
-  'పచ్చి కూరగాయలు రోజూ తినండి — మంచి జీర్ణశక్తి 🥬',
-  'రాత్రి తేలికగా తినండి — మంచి నిద్ర వస్తుంది 🌙',
-  'మజ్జిగ రోజూ తాగండి — జీర్ణక్రియ మెరుగవుతుంది 🥛',
-  'ఈ రోజు ఆదివారం — కుటుంబంతో కలిసి తినండి ❤️'
-];
-  const tip=TIPS[today.getDay()];
-  document.getElementById('today-hero').innerHTML=`
-    <div style="background:var(--gbg);border:1px solid var(--gbd);border-radius:var(--r);padding:10px 13px;margin-bottom:10px;display:flex;align-items:center;gap:8px">
-      <span style="font-size:1rem">💡</span>
-      <span style="font-size:.76rem;color:var(--green);font-weight:600;line-height:1.45">${tip}</span>
-    </div>
-    <div class="hero-card">
-      <div class="hero-top">
-        <div class="hero-eyebrow">${FULLDAYS[today.getDay()]} · ${today.toLocaleDateString('en-IN',{day:'numeric',month:'long'})}</div>
-        <div class="hero-title">Today's Meals</div>
-      </div>
-      ${mealRows}
-    </div>`;
-
-  document.getElementById('nut-row').innerHTML=`
-    <div class="nut-chip"><div class="nut-v">${totalKcal||'—'}</div><div class="nut-l">Calories</div></div>
-    <div class="nut-chip"><div class="nut-v">${Object.keys(plan).length}</div><div class="nut-l">Meals</div></div>
-    <div class="nut-chip"><div class="nut-v">${proteinMeals}</div><div class="nut-l">Protein</div></div>
-    <div class="nut-chip"><div class="nut-v">${D.members.length}</div><div class="nut-l">Family</div></div>`;
+  document.getElementById('week-plan').innerHTML=weekHtml;
 }
 
-function greetingText(){
-  const h=new Date().getHours();
-  if(h<6) return 'నమస్కారం 🙏 Early bird!';
-  if(h<12) return 'శుభోదయం 🌅 Good morning';
-  if(h<15) return 'మధ్యాహ్నం 🌤️ Good afternoon';
-  if(h<18) return 'నమస్కారం 🌿 Good afternoon';
-  return 'శుభ సాయంత్రం 🌙 Good evening';
+function toggleDay(key){
+  if(expandedDays.has(key))expandedDays.delete(key);
+  else expandedDays.add(key);
+  renderHome();
 }
 
-function jumpDay(key){
-  switchTab('plan');
-  setTimeout(()=>{calSelKey=key;renderCalGrid();renderPlanDayDetail(key);},60);
-}
+
+
+
 
 // ─── RECIPES ────────────────────────────────────────────────────────────
 
@@ -879,7 +848,7 @@ function jumpDay(key){
 const RECIPE_EMOJI={
   b1:'🥞',b2:'🍚',b3:'🌶️',b4:'🫓',b5:'☕',b6:'🍳',b7:'🫓',
   l1:'🌿',l2:'🍅',l3:'🥦',l4:'🫛',l5:'🥚',l6:'🥬',l7:'🥔',
-  d1:'🥚',d2:'🫓',d3:'🌿',d4:'🫛',d5:'🥔',d6:'🫓',d7:'💫',
+  d1:'🫑',d2:'🥔',d3:'🌿',d4:'🫛',d5:'🥔',d6:'🫓',d7:'💫',
   s1:'🌶️',s2:'🫛',s3:'🍌',s4:'🥨',s5:'🌱',s6:'🥛',s7:'🟤',
 };
 let activeMealTab='All';
@@ -972,11 +941,7 @@ function recipeRowHtml(r){
       <div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-top:3px">${tagHtml}</div>
       ${favLine?`<div style="margin-top:3px">${favLine}</div>`:''}
     </div>
-    <div class="rright" style="flex-direction:column;align-items:flex-end;gap:4px">
-      ${r.kcal?`<span style="font-size:.7rem;font-weight:700;color:var(--t3)">${r.kcal} kcal</span>`:''}
-      ${r.time?`<span style="font-size:.64rem;color:var(--t3)">⏱ ${r.time}m</span>`:''}
-      <div class="rchev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
-    </div>
+    <div class="rchev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
   </div>`;
 }
 
@@ -984,24 +949,18 @@ function openRecipeSheet(id){
   const r=D.recipes.find(x=>x.id===id);if(!r)return;
   const favMs=D.members.filter(m=>(r.favOf||[]).includes(m.id));
   const tagHtml=(r.tags||[]).map(t=>`<span class="tc ${TAG_CLS[t]||'tc-a'}">${t}</span>`).join('');
-  const favHtml=favMs.length?`<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:12px">${favMs.map(m=>`<span style="display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:99px;background:${m.color}18;color:${m.color};border:1px solid ${m.color}30">${m.emoji} ${esc(m.name)}'s fave</span>`).join('')}</div>`:'';
-  const ingrHtml=(r.ingredients||[]).map(i=>`<span style="display:inline-flex;font-size:.72rem;background:var(--sf2);border:1px solid var(--bd);border-radius:99px;padding:3px 9px;color:var(--t2)">${esc(i)}</span>`).join('');
-  const stepsHtml=(r.steps||[]).map((s,i)=>`<div style="display:flex;gap:9px;align-items:flex-start;margin-bottom:8px"><div style="width:20px;height:20px;border-radius:50%;background:var(--gbg);border:1px solid var(--gbd);color:var(--green);font-size:.62rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">${i+1}</div><div style="font-size:.82rem;color:var(--t2);line-height:1.55">${esc(s)}</div></div>`).join('');
+  const foodEmoji=RECIPE_EMOJI[r.id]||'🍽️';
   openSheet(r.name,`
-    ${r.tel?`<div style="font-size:.78rem;color:var(--t3);font-weight:500;margin-bottom:8px">${esc(r.tel)}</div>`:''}
-    <div class="tag-chips" style="margin-bottom:8px">${tagHtml}</div>
-    <div style="display:flex;gap:10px;font-size:.72rem;color:var(--t3);margin-bottom:10px">
-      ${r.kcal?`<span>⚡ ${r.kcal} kcal</span>`:''}
-      ${r.time?`<span>⏱ ${r.time} min</span>`:''}
-      ${(r.meal||[]).length?`<span>🍽️ ${r.meal.join(', ')}</span>`:''}
+    <div style="display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--bd2);margin-bottom:14px">
+      <div style="width:52px;height:52px;border-radius:14px;background:var(--gbg);border:1px solid var(--gbd);display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0">${foodEmoji}</div>
+      <div>
+        ${r.tel?`<div style="font-size:.75rem;color:var(--t3);margin-bottom:4px">${esc(r.tel)}</div>`:''}
+        <div style="font-size:.72rem;color:var(--t3)">${(r.meal||[]).map(m=>MEAL_ICONS[m]+' '+m).join('  ')}</div>
+      </div>
     </div>
-    ${favHtml}
-    <p style="font-size:.82rem;color:var(--t2);line-height:1.6;margin-bottom:14px">${esc(r.desc||'')}</p>
-    <div class="lbl" style="margin-bottom:8px">INGREDIENTS</div>
-    <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px">${ingrHtml}</div>
-    <div class="lbl" style="margin-bottom:8px">METHOD</div>
-    <div style="margin-bottom:16px">${stepsHtml}</div>
-    <div style="display:flex;gap:8px;padding-top:12px;border-top:1px solid var(--bd2)">
+    <div class="tag-chips" style="margin-bottom:14px">${tagHtml}</div>
+    ${favMs.length?`<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px">${favMs.map(m=>`<span style="display:inline-flex;align-items:center;gap:4px;font-size:.78rem;font-weight:700;padding:4px 11px;border-radius:99px;background:${m.color}18;color:${m.color};border:1px solid ${m.color}30">${m.emoji} ${esc(m.name)}'s fave ❤️</span>`).join('')}</div>`:''}
+    <div style="display:flex;gap:8px;padding-top:14px;border-top:1px solid var(--bd2);margin-top:6px">
       <button class="btn btn-p" style="flex:1" onclick="closeSheet();openPlanSheetForRecipe('${r.id}')">+ Add to Plan</button>
       <button class="btn btn-g" onclick="closeSheet();openAddRecipeSheet('${r.id}')">Edit</button>
       <button class="btn btn-d" onclick="closeSheet();delRecipe('${r.id}')">Delete</button>
@@ -1168,7 +1127,7 @@ function renderPlanDayDetail(key){
 
 function removePlan(key,type){
   if(D.plan[key])delete D.plan[key][type];
-  save();renderCalGrid();renderPlanDayDetail(key);if(curTab==='home')renderHome();toast('Removed');
+  save();renderHome();toast('Removed');
 }
 
 // ─── PLAN SHEET ───────────────────────────────────────────────────────────
@@ -1213,8 +1172,7 @@ function assignPlan(recipeId){
   if(!D.plan[_pd])D.plan[_pd]={};
   D.plan[_pd][_pm]={recipeId};
   save();closeSheet();
-  if(curTab==='plan'){renderCalGrid();renderPlanDayDetail(_pd);}
-  if(curTab==='home')renderHome();
+  renderHome();
   toast('Added to plan ✓');
 }
 
